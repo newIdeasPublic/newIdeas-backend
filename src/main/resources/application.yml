@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: newIdeasPools
+      maximum-pool-size: 30
+      minimum-idle: 2
+      auto-commit: true
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+knife4j:
+  enable: true
+  production: false
+  setting:
+    enableAfterScript: true
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Copyright  2020-[新思路公益]（http://www.xslgy.com）
