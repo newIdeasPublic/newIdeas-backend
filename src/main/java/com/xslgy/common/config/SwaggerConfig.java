@@ -1,4 +1,4 @@
-package com.xslgy.core.config;
+package com.xslgy.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SwaggerConfig {
                 .groupName("1.0版本")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.xslgy.modules.*.action"))
+                .apis(RequestHandlerSelectors.basePackage("com.xslgy.*.*.action"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
