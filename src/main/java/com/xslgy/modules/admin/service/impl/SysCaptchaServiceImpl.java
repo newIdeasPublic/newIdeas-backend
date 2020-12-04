@@ -28,13 +28,14 @@ public class SysCaptchaServiceImpl implements SysCaptchaService {
         SysCaptcha sysCaptcha = sysCaptchaRepository.getSysCaptchaByUuid(uuid);
         if (sysCaptcha == null) {
             sysCaptcha = new SysCaptcha();
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 5);
+            sysCaptcha.setExpireTime(calendar.getTime());
         }
         String code = producer.createText();
         sysCaptcha.setUuid(uuid);
         sysCaptcha.setCode(code);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 5);
-        sysCaptcha.setExpireTime(calendar.getTime());
+        sysCaptchaRepository.save(sysCaptcha);
         return producer.createImage(code);
     }
 
