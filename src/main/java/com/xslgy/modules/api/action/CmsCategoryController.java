@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
 @Slf4j
-@Api("cms分类")
+@Api(tags = "cms分类")
 @RestController
 @RequestMapping("api/cmscategory")
 public class CmsCategoryController extends BaseController {
@@ -34,7 +34,7 @@ public class CmsCategoryController extends BaseController {
             @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", readOnly = true),
             @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
     })
-    public Result list(@RequestParam(name = "name")String name, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+    public Result list(@RequestParam(name = "name", required = false)String name, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
         return ResultUtils.success(cmsCategoryService.list(name, PageRequest.of(page - 1, size)));
     }
     @ApiOperation("新增cms分类")
@@ -60,5 +60,11 @@ public class CmsCategoryController extends BaseController {
     public Result update(@PathVariable("id")Long id) {
         cmsCategoryService.deleteById(id);
         return ResultUtils.success();
+    }
+    @ApiOperation("通过id获取详情内容")
+    @GetMapping("get/{id}")
+    @ApiImplicitParam(name = "id", value = "内容id", dataType = "Long", paramType = "path", readOnly = true)
+    public Result get(@PathVariable("id")Long id) {
+        return ResultUtils.success(cmsCategoryService.getById(id));
     }
 }

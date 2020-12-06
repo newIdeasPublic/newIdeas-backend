@@ -46,4 +46,14 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     public void deleteById(Long id) {
         cmsCategoryRepository.deleteById(id);
     }
+
+    @Override
+    public CmsCategory getById(Long id) {
+        return cmsCategoryRepository.getOne(id);
+    }
+
+    @Override
+    public CmsCategory getByCode(String code) {
+        return cmsCategoryRepository.getCmsCategoryByCode(code);
+    }
 }

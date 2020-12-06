@@ -11,4 +11,8 @@ public interface CmsCategoryService {
     CmsCategory save(CmsCategory cmsCategory);
 
     void deleteById(Long id);
+
+    CmsCategory getById(Long id);
+
+    CmsCategory getByCode(String code);
 }

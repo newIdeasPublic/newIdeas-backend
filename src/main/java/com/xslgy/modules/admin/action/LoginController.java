@@ -2,6 +2,7 @@ package com.xslgy.modules.admin.action;
 
 import com.xslgy.core.action.BaseController;
 import com.xslgy.modules.admin.service.SysCaptchaService;
+import io.swagger.annotations.Api;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+@Api(tags = "登录")
 @RestController
 @RequestMapping("admin/login")
 public class LoginController extends BaseController {

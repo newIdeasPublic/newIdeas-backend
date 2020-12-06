@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CmsCategoryRepository extends BaseRepository<CmsCategory, Long> {
+
+    CmsCategory getCmsCategoryByCode(String code);
 }
