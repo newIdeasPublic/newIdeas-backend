@@ -12,6 +12,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Configuration
 @EnableSwagger2WebMvc
 public class SwaggerConfig {
+
+    private static final String splitor = ";";
+
     @Bean(value = "defaultApi2")
     public Docket defaultApi2() {
         Docket docket=new Docket(DocumentationType.SWAGGER_2)
@@ -26,7 +29,7 @@ public class SwaggerConfig {
                 .groupName("1.0版本")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.xslgy.*.*.action"))
+                .apis(RequestHandlerSelectors.basePackage("com.xslgy.modules"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
