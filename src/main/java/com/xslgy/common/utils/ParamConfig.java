@@ -12,4 +12,8 @@ public class ParamConfig {
      * cdn地址
      */
     private String cdnUrl;
+    /**
+     * 文件路径
+     */
+    private String filePath;
 }

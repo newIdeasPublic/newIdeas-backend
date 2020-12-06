@@ -5,3 +5,4 @@ spring:
     password: admin
 newIdeas:
   cdnUrl: http://localhost
+  filePath: d:/test
