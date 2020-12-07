@@ -3,7 +3,7 @@ package com.xslgy.common.service.impl;
 import com.xslgy.common.entity.CmsCategory;
 import com.xslgy.common.repository.CmsCategoryRepository;
 import com.xslgy.common.service.CmsCategoryService;
-import org.springframework.data.domain.Page;
+import com.xslgy.common.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,8 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     CmsCategoryRepository cmsCategoryRepository;
 
     @Override
-    public Page<CmsCategory> list(String name, Pageable pageable) {
-        return cmsCategoryRepository.findAll(new Specification<CmsCategory>() {
+    public PageUtils list(String name, Pageable pageable) {
+        return new PageUtils(cmsCategoryRepository.findAll(new Specification<CmsCategory>() {
             @Override
             public Predicate toPredicate(Root<CmsCategory> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
@@ -34,7 +34,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
                 }
                 return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
             }
-        }, pageable);
+        }, pageable));
     }
 
     @Override

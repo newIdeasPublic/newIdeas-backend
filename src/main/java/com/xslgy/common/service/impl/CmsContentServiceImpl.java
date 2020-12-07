@@ -4,8 +4,8 @@ import com.xslgy.common.entity.CmsContent;
 import com.xslgy.common.repository.CmsCategoryRepository;
 import com.xslgy.common.repository.CmsContentRepository;
 import com.xslgy.common.service.CmsContentService;
+import com.xslgy.common.utils.PageUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -28,8 +28,8 @@ public class CmsContentServiceImpl implements CmsContentService {
     CmsCategoryRepository cmsCategoryRepository;
 
     @Override
-    public Page<CmsContent> listPageByCode(String code, Pageable pageable) {
-        return cmsContentRepository.listPageByCode(code, pageable);
+    public PageUtils listPageByCode(String code, Pageable pageable) {
+        return new PageUtils(cmsContentRepository.listPageByCode(code, pageable));
     }
 
     @Override
@@ -48,8 +48,8 @@ public class CmsContentServiceImpl implements CmsContentService {
     }
 
     @Override
-    public Page<CmsContent> listPageByTitle(String title, Pageable pageable) {
-        return cmsContentRepository.findAll(new Specification<CmsContent>() {
+    public PageUtils listPageByTitle(String title, Pageable pageable) {
+        return new PageUtils(cmsContentRepository.findAll(new Specification<CmsContent>() {
             @Override
             public Predicate toPredicate(Root<CmsContent> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
@@ -58,7 +58,7 @@ public class CmsContentServiceImpl implements CmsContentService {
                 }
                 return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
             }
-        }, pageable);
+        }, pageable));
     }
 
     @Override

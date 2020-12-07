@@ -1,12 +1,12 @@
 package com.xslgy.common.service;
 
 import com.xslgy.common.entity.CmsCategory;
-import org.springframework.data.domain.Page;
+import com.xslgy.common.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 
 public interface CmsCategoryService {
 
-    Page<CmsCategory> list(String name, Pageable pageable);
+    PageUtils list(String name, Pageable pageable);
 
     CmsCategory save(CmsCategory cmsCategory);
 

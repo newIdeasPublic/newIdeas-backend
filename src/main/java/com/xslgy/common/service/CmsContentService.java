@@ -1,14 +1,14 @@
 package com.xslgy.common.service;
 
 import com.xslgy.common.entity.CmsContent;
-import org.springframework.data.domain.Page;
+import com.xslgy.common.utils.PageUtils;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface CmsContentService {
 
-    Page<CmsContent> listPageByCode(String code, Pageable pageable);
+    PageUtils listPageByCode(String code, Pageable pageable);
 
     List<CmsContent> listByCode(String code);
 
@@ -16,7 +16,7 @@ public interface CmsContentService {
 
     void deleteById(Long id);
 
-    Page<CmsContent> listPageByTitle(String title, Pageable pageable);
+    PageUtils listPageByTitle(String title, Pageable pageable);
 
     CmsContent getById(Long id);
 }
