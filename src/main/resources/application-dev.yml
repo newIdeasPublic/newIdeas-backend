@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/newideas?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
-    username: root
-    password: admin
+    url: jdbc:mysql://frps.zxl78585.com:3306/newideas?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: xslgy
+    password: e9d7898c-5212-42c9-9047-b092b09faacd
 newIdeas:
   cdnUrl: http://localhost
   filePath: d:/test
