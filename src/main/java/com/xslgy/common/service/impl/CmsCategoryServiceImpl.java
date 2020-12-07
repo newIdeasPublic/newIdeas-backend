@@ -30,7 +30,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
             public Predicate toPredicate(Root<CmsCategory> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
                 if (!StringUtils.isEmpty(name)) {
-                    predicates.add(criteriaBuilder.like(root.get("nmae"), "%" + name + "%"));
+                    predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
                 }
                 return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
             }
