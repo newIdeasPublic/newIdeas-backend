@@ -3,6 +3,9 @@ package com.xslgy.modules.admin.action;
 import com.xslgy.core.action.BaseController;
 import com.xslgy.modules.admin.service.SysCaptchaService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,10 @@ public class LoginController extends BaseController {
     @Resource
     SysCaptchaService sysCaptchaService;
 
+    @ApiOperation(value = "图形验证码接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uuid", value = "图形验证码请求唯一标识", dataType = "String", paramType = "query", required = true)
+    })
     @GetMapping("captcha.jpg")
     public void captcha(HttpServletResponse response, String uuid) throws IOException {
         response.setHeader("Cache-Control", "no-store,no-cache");
