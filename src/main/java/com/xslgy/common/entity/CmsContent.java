@@ -3,6 +3,7 @@ package com.xslgy.common.entity;
 import com.xslgy.core.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "cms_content")
+@ToString
 public class CmsContent extends BaseEntity {
 
     private Long categoryId;

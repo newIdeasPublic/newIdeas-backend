@@ -49,7 +49,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public CmsCategory getById(Long id) {
-        return cmsCategoryRepository.getOne(id);
+        return cmsCategoryRepository.findById(id).orElse(null);
     }
 
     @Override

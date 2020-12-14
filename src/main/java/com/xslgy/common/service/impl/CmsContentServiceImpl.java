@@ -63,6 +63,6 @@ public class CmsContentServiceImpl implements CmsContentService {
 
     @Override
     public CmsContent getById(Long id) {
-        return cmsContentRepository.getOne(id);
+        return cmsContentRepository.findById(id).orElse(null);
     }
 }
