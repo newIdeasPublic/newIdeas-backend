@@ -44,7 +44,7 @@ public class VolunteerVO {
 
     @NotNull(message = "身份证号不能为空")
     @ApiModelProperty("身份证号")
-    private String identifier;
+    private String idCard;
 
     @NotNull(message = "户籍不能为空")
     @ApiModelProperty("户籍")
