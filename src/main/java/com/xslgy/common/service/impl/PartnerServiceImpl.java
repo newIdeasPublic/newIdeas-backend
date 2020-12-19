@@ -55,4 +55,9 @@ public class PartnerServiceImpl implements PartnerService {
     public void deleteById(Long id) {
         partnerRepository.deleteById(id);
     }
+    
+    @Override
+    public Partner getById(Long id) {
+        return partnerRepository.findById(id).orElse(null);
+    }
 }

@@ -19,4 +19,7 @@ public interface PartnerService {
     PageUtils listPage(Pageable pageable);
     
     void deleteById(Long id);
+    
+    Partner getById(Long id);
+    
 }

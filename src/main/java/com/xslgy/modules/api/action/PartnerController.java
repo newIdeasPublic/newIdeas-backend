@@ -79,8 +79,15 @@ public class PartnerController extends BaseController {
     @ApiOperation(value = "通过id删除伙伴")
     @PostMapping("delete/{id}")
     @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", readOnly = true)
-    public Result delete(@PathVariable("id")Long id) {
+    public Result delete(@PathVariable("id") Long id) {
         partnerService.deleteById(id);
         return ResultUtils.success();
+    }
+    
+    @ApiOperation(value = "通过id获取伙伴")
+    @GetMapping("get/{id}")
+    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", readOnly = true)
+    public Result get(@PathVariable("id") Long id) {
+        return ResultUtils.success(partnerService.getById(id));
     }
 }
