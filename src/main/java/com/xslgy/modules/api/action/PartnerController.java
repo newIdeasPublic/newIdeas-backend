@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,5 +74,13 @@ public class PartnerController extends BaseController {
         Partner partner = new Partner();
         BeanUtils.copyProperties(partnerVO, partner);
         return ResultUtils.success(partnerService.save(partner));
+    }
+    
+    @ApiOperation(value = "通过id删除伙伴")
+    @PostMapping("delete/{id}")
+    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", readOnly = true)
+    public Result delete(@PathVariable("id")Long id) {
+        partnerService.deleteById(id);
+        return ResultUtils.success();
     }
 }

@@ -50,4 +50,9 @@ public class PartnerServiceImpl implements PartnerService {
     public PageUtils listPage(Pageable pageable) {
         return new PageUtils(partnerRepository.findAll(pageable));
     }
+    
+    @Override
+    public void deleteById(Long id) {
+        partnerRepository.deleteById(id);
+    }
 }
