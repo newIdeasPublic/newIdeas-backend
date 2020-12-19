@@ -63,4 +63,15 @@ public class PartnerController extends BaseController {
     public Result listPage(@RequestParam("page") Integer page, @RequestParam("size") Integer size) {
         return ResultUtils.success(partnerService.listPage(PageRequest.of(page - 1, size)));
     }
+    
+    @ApiOperation(value = "更新伙伴")
+    @PostMapping("update")
+    public Result update(@RequestBody PartnerVO partnerVO) {
+        if (partnerVO.getId() == null) {
+            throw new XSLGYException("更新伙伴id不能为空");
+        }
+        Partner partner = new Partner();
+        BeanUtils.copyProperties(partnerVO, partner);
+        return ResultUtils.success(partnerService.save(partner));
+    }
 }
