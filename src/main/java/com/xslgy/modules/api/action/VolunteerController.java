@@ -1,12 +1,15 @@
 package com.xslgy.modules.api.action;
 
-import com.xslgy.common.entity.Volunteer;
+import com.xslgy.common.dto.AddVolunteerDTO;
+import com.xslgy.common.dto.BaseVolunteerDTO;
 import com.xslgy.common.service.VolunteerService;
+import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.VolunteerVO;
 import com.xslgy.core.action.BaseController;
 import com.xslgy.core.utils.Result;
-import com.xslgy.core.utils.ResultUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * @Author : ZhaoHP
@@ -34,25 +36,52 @@ public class VolunteerController extends BaseController {
 
     @ApiOperation("上传志愿者档案")
     @PostMapping("/add")
-    public Result<String> addVolunteer(@Valid @NotNull @RequestBody VolunteerVO volunteerVO) {
-        log.info("调用【上传志愿者档案】接口：{}", volunteerVO);
-        volunteerService.addVolunteer(volunteerVO);
-        return ResultUtils.success("添加成功");
+    public Result<String> addVolunteer(@Valid @NotNull @RequestBody AddVolunteerDTO addVolunteerDTO) {
+        log.info("调用【上传志愿者档案】接口：{}", addVolunteerDTO);
+        volunteerService.addVolunteer(addVolunteerDTO);
+        return new Result<>("添加成功");
     }
 
     @ApiOperation("更新志愿者档案")
     @PostMapping("/update")
-    public Result<String> updateVolunteer(@RequestBody VolunteerVO volunteerVO) {
-        log.info("调用【更新志愿者档案】接口：{}", volunteerVO);
-        volunteerService.updateVolunteer(volunteerVO);
-        return ResultUtils.success("更新成功");
+    public Result<String> updateVolunteer(@RequestBody AddVolunteerDTO addVolunteerDTO) {
+        log.info("调用【更新志愿者档案】接口：{}", addVolunteerDTO);
+        volunteerService.updateVolunteer(addVolunteerDTO);
+        return new Result<>("更新成功");
     }
 
     @ApiOperation("分页查询志愿者列表")
-    @GetMapping("/list/page")
-    public Result<List<Volunteer>> getVolunteerPage() {
-
-        return null;
+    @PostMapping("/list/page")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),
+            @ApiImplicitParam(name = "pageNum", value = "当前页数", defaultValue = "1")
+    })
+    public Result<PageUtils> getVolunteerPage(
+            @RequestBody BaseVolunteerDTO baseVolunteerDTO,
+            @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
+    ) {
+        log.info("调用【分页查询志愿者列表】接口: {}；pageNum:{}；pageSize:{}", baseVolunteerDTO, pageNum, pageSize);
+        return new Result<>(volunteerService.getVolunteerPage(baseVolunteerDTO, pageNum, pageSize));
     }
 
+    @ApiOperation("根据主键ID删除对应的档案")
+    @DeleteMapping("/delete")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "主键", required = true)
+    })
+    public Result<String> deleteById(@RequestParam("id") @NotNull Long id) {
+        log.info("调用【根据主键ID删除对应的档案】接口；{}", id);
+        return new Result<>(volunteerService.deleteById(id));
+    }
+
+    @ApiOperation("根据ID查询详情信息")
+    @GetMapping("/getDetailInfo")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "主键ID", required = true)
+    })
+    public Result<VolunteerVO> getVolunteerVoById(@RequestParam("id") @NotNull Long id) {
+        log.info("调用【根据ID查询详情信息】接口；{}", id);
+        return new Result<>(volunteerService.getVolunteerVoById(id));
+    }
 }

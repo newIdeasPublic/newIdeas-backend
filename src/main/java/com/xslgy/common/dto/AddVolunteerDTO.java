@@ -1,55 +1,47 @@
-package com.xslgy.common.vo;
+package com.xslgy.common.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.Accessors;
+import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @Author : ZhaoHP
- * @Data : 2020/12/17  下午9:53
- * @Description : 志愿者视图实体
+ * @Data : 2020/12/19  下午2:13
+ * @Description : 志愿者添加实体
  */
 @Data
-@ApiModel("志愿者实体")
-@Accessors(chain = true)
-public class VolunteerVO {
+@ApiModel("志愿者添加实体")
+@EqualsAndHashCode(callSuper = true)
+public class AddVolunteerDTO extends BaseVolunteerDTO{
 
-    @ApiModelProperty("主键ID")
-    private Long id;
-
-    @ApiModelProperty("姓名")
-    private String name;
-
-    @ApiModelProperty("性别")
-    private String sex;
-
-    @ApiModelProperty("出生日期")
-    private Date birthdate;
-
-    @ApiModelProperty("手机号")
-    private String mobile;
-
+    @NotNull(message = "专业不能为空")
     @ApiModelProperty("专业")
     private String professional;
 
+    @NotNull(message = "学历不能为空")
     @ApiModelProperty("学历")
     private String education;
 
+    @NotNull(message = "出生日期不能为空")
+    @ApiModelProperty("出生日期")
+    private Date birthdate;
+
+    @NotNull(message = "身份证号不能为空")
     @ApiModelProperty("身份证号")
     private String idCard;
 
+    @NotNull(message = "户籍不能为空")
     @ApiModelProperty("户籍")
     private String censusRegister;
 
+    @NotNull(message = "照片不能为空")
     @ApiModelProperty("照片地址")
     private String photoUrl;
-
-    @ApiModelProperty("民族")
-    private String nation;
 
     @ApiModelProperty("血型")
     private String bloodType;
@@ -68,12 +60,6 @@ public class VolunteerVO {
 
     @ApiModelProperty("工作地址")
     private String workAddr;
-
-    @ApiModelProperty("家庭地址")
-    private String homeAddr;
-
-    @ApiModelProperty("辖区团队")
-    private String areaTeam;
 
     @ApiModelProperty("车辆信息")
     private String carInfo;

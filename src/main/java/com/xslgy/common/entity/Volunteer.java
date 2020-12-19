@@ -2,6 +2,10 @@ package com.xslgy.common.entity;
 
 import com.xslgy.core.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +19,9 @@ import java.util.Date;
  */
 @Data
 @Entity
+@Accessors(chain = true)
 @Table(name = "volunteer")
+@EqualsAndHashCode(callSuper = true)
 public class Volunteer extends BaseEntity {
     private String name;
     @Column(name = "sex", length = 4)
@@ -53,4 +59,5 @@ public class Volunteer extends BaseEntity {
     private String activity;
     @Column(name = "introduce_myself", length = 1024)
     private String introduceMyself;
+    private Byte deleteFlag;
 }
