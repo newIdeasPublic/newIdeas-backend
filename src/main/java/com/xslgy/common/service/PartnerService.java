@@ -2,7 +2,10 @@ package com.xslgy.common.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.xslgy.common.entity.Partner;
+import com.xslgy.common.utils.PageUtils;
 
 /**
  * @author lamdaer
@@ -12,4 +15,6 @@ public interface PartnerService {
     Partner save(Partner partner);
     
     List<Partner> list();
+    
+    PageUtils listPage(Pageable pageable);
 }

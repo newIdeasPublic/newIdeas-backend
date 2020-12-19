@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.xslgy.common.entity.Partner;
 import com.xslgy.common.repository.PartnerRepository;
 import com.xslgy.common.service.PartnerService;
+import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.utils.RegexUtils;
 import com.xslgy.core.exception.XSLGYException;
 
@@ -42,5 +44,10 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public List<Partner> list() {
         return partnerRepository.findAll();
+    }
+    
+    @Override
+    public PageUtils listPage(Pageable pageable) {
+        return new PageUtils(partnerRepository.findAll(pageable));
     }
 }
