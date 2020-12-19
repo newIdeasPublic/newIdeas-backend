@@ -90,4 +90,16 @@ public class PartnerController extends BaseController {
     public Result get(@PathVariable("id") Long id) {
         return ResultUtils.success(partnerService.getById(id));
     }
+    
+    @ApiOperation(value = "通过类型模糊查询（带分页）")
+    @GetMapping("listPageByTitle")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "类型", dataType = "String", paramType = "query", readOnly = false),
+            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", readOnly = true),
+            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly =
+                    true)})
+    public Result listPageByTitle(@RequestParam(value = "type", required = false) String type,
+            @RequestParam("page") Integer page, @RequestParam("size") Integer size) {
+        return ResultUtils.success(partnerService.listPageByType(type, PageRequest.of(page - 1, size)));
+    }
 }

@@ -1,11 +1,14 @@
 package com.xslgy.common.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.xslgy.common.entity.Partner;
 import com.xslgy.common.repository.PartnerRepository;
@@ -59,5 +62,16 @@ public class PartnerServiceImpl implements PartnerService {
     @Override
     public Partner getById(Long id) {
         return partnerRepository.findById(id).orElse(null);
+    }
+    
+    @Override
+    public PageUtils listPageByType(String type, Pageable pageable) {
+        return new PageUtils(partnerRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (StringUtils.hasText(type)) {
+                predicates.add(criteriaBuilder.like(root.get("type"), "%" + type + "%"));
+            }
+            return criteriaQuery.where(predicates.toArray(new Predicate[0])).getGroupRestriction();
+        }, pageable));
     }
 }

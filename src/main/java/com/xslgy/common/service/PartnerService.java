@@ -22,4 +22,6 @@ public interface PartnerService {
     
     Partner getById(Long id);
     
+    PageUtils listPageByType(String type, Pageable pageable);
+    
 }
