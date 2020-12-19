@@ -3,6 +3,7 @@ package com.xslgy.modules.api.action;
 import javax.annotation.Resource;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,4 +44,9 @@ public class PartnerController extends BaseController {
         return ResultUtils.success(partnerService.save(partner));
     }
     
+    @GetMapping("list")
+    @ApiOperation("查询所有伙伴（不带分页)")
+    public Result list() {
+        return ResultUtils.success(partnerService.list());
+    }
 }

@@ -1,5 +1,7 @@
 package com.xslgy.common.service;
 
+import java.util.List;
+
 import com.xslgy.common.entity.Partner;
 
 /**
@@ -8,4 +10,6 @@ import com.xslgy.common.entity.Partner;
  */
 public interface PartnerService {
     Partner save(Partner partner);
+    
+    List<Partner> list();
 }

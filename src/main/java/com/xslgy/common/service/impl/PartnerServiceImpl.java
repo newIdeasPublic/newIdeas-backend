@@ -1,5 +1,7 @@
 package com.xslgy.common.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -37,4 +39,8 @@ public class PartnerServiceImpl implements PartnerService {
         return partnerRepository.save(partner);
     }
     
+    @Override
+    public List<Partner> list() {
+        return partnerRepository.findAll();
+    }
 }
