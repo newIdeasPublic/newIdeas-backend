@@ -20,4 +20,14 @@ public class RegexUtils {
         String regex = "^1[3-9]\\d{9}$";
         return Pattern.matches(regex, phoneNumber);
     }
+    
+    /**
+     * 校验邮箱地址
+     * @param email 待校验的邮箱地址
+     * @return 校验成功返回true，校验失败返回false
+     */
+    public static boolean checkEmail(String email) {
+        String regex = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(?:\\.[a-zA-Z0-9_-]+)+$";
+        return Pattern.matches(regex, email);
+    }
 }
