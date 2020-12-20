@@ -3,8 +3,6 @@ package com.xslgy.common.entity;
 import com.xslgy.core.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
@@ -31,16 +29,16 @@ public class Volunteer extends BaseEntity {
     private String mobile;
     private String professional;
     private String education;
-    @Column(name = "id_card", length = 20)
+    @Column(name = "id_card", length = 20, unique = true)
     private String idCard;
     private String censusRegister;
     private String photoUrl;
     @Column(name = "nation", length = 40)
     private String nation;
-    @Column(name = "blood_type",length = 10)
+    @Column(name = "blood_type", length = 10)
     private String bloodType;
     private String school;
-    @Column(name = "politics_type",length = 20)
+    @Column(name = "politics_type", length = 20)
     private String politicsType;
     private String workUnit;
     private String position;

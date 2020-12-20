@@ -2,11 +2,13 @@ package com.xslgy.modules.api.action;
 
 import com.xslgy.common.dto.AddVolunteerDTO;
 import com.xslgy.common.dto.BaseVolunteerDTO;
+import com.xslgy.common.dto.SearchVolunteerDTO;
 import com.xslgy.common.service.VolunteerService;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.VolunteerVO;
 import com.xslgy.core.action.BaseController;
 import com.xslgy.core.utils.Result;
+import com.xslgy.core.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -39,7 +41,7 @@ public class VolunteerController extends BaseController {
     public Result<String> addVolunteer(@Valid @NotNull @RequestBody AddVolunteerDTO addVolunteerDTO) {
         log.info("调用【上传志愿者档案】接口：{}", addVolunteerDTO);
         volunteerService.addVolunteer(addVolunteerDTO);
-        return new Result<>("添加成功");
+        return ResultUtils.success("添加成功");
     }
 
     @ApiOperation("更新志愿者档案")
@@ -47,7 +49,7 @@ public class VolunteerController extends BaseController {
     public Result<String> updateVolunteer(@RequestBody AddVolunteerDTO addVolunteerDTO) {
         log.info("调用【更新志愿者档案】接口：{}", addVolunteerDTO);
         volunteerService.updateVolunteer(addVolunteerDTO);
-        return new Result<>("更新成功");
+        return ResultUtils.success("更新成功");
     }
 
     @ApiOperation("分页查询志愿者列表")
@@ -57,12 +59,12 @@ public class VolunteerController extends BaseController {
             @ApiImplicitParam(name = "pageNum", value = "当前页数", defaultValue = "1")
     })
     public Result<PageUtils> getVolunteerPage(
-            @RequestBody BaseVolunteerDTO baseVolunteerDTO,
+            @RequestBody SearchVolunteerDTO searchVolunteerDTO,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
             @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
     ) {
-        log.info("调用【分页查询志愿者列表】接口: {}；pageNum:{}；pageSize:{}", baseVolunteerDTO, pageNum, pageSize);
-        return new Result<>(volunteerService.getVolunteerPage(baseVolunteerDTO, pageNum, pageSize));
+        log.info("调用【分页查询志愿者列表】接口: {}；pageNum:{}；pageSize:{}", searchVolunteerDTO, pageNum, pageSize);
+        return ResultUtils.success(volunteerService.getVolunteerPage(searchVolunteerDTO, pageNum, pageSize));
     }
 
     @ApiOperation("根据主键ID删除对应的档案")
@@ -72,7 +74,7 @@ public class VolunteerController extends BaseController {
     })
     public Result<String> deleteById(@RequestParam("id") @NotNull Long id) {
         log.info("调用【根据主键ID删除对应的档案】接口；{}", id);
-        return new Result<>(volunteerService.deleteById(id));
+        return ResultUtils.success(volunteerService.deleteById(id));
     }
 
     @ApiOperation("根据ID查询详情信息")
@@ -82,6 +84,6 @@ public class VolunteerController extends BaseController {
     })
     public Result<VolunteerVO> getVolunteerVoById(@RequestParam("id") @NotNull Long id) {
         log.info("调用【根据ID查询详情信息】接口；{}", id);
-        return new Result<>(volunteerService.getVolunteerVoById(id));
+        return ResultUtils.success(volunteerService.getVolunteerVoById(id));
     }
 }

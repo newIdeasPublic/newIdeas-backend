@@ -2,6 +2,7 @@ package com.xslgy.common.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,10 +12,11 @@ import javax.validation.constraints.NotNull;
  * @Description : 志愿者接口封装基础实体类
  */
 @Data
+@Accessors(chain = true)
 public class BaseVolunteerDTO {
 
     @ApiModelProperty("主键ID")
-    private Integer id;
+    private Long id;
 
     @NotNull(message = "姓名不能为空")
     @ApiModelProperty("姓名")

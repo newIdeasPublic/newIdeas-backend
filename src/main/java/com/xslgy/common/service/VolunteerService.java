@@ -1,7 +1,7 @@
 package com.xslgy.common.service;
 
 import com.xslgy.common.dto.AddVolunteerDTO;
-import com.xslgy.common.dto.BaseVolunteerDTO;
+import com.xslgy.common.dto.SearchVolunteerDTO;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.VolunteerVO;
 
@@ -29,12 +29,12 @@ public interface VolunteerService {
     /**
      * 分页查询志愿者列表
      *
-     * @param baseVolunteerDTO 查询条件实体
-     * @param pageNum          每页记录数
-     * @param pageSize         当前页数
+     * @param searchVolunteerDTO 查询条件实体
+     * @param pageNum            每页记录数
+     * @param pageSize           当前页数
      * @return Page<Volunteer>
      */
-    PageUtils getVolunteerPage(BaseVolunteerDTO baseVolunteerDTO, Integer pageNum, Integer pageSize);
+    PageUtils getVolunteerPage(SearchVolunteerDTO searchVolunteerDTO, Integer pageNum, Integer pageSize);
 
     /**
      * 按照ID逻辑删除对应的档案
