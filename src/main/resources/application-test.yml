@@ -6,3 +6,4 @@ spring:
 newIdeas:
   cdnUrl: http://www.xslgy.com
   filePath: /data/appdir/upload
+  rsaDecodeUrl: http://127.0.0.1:89
