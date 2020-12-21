@@ -3,6 +3,9 @@ package com.xslgy.common.service.impl;
 import com.xslgy.common.entity.SysConfig;
 import com.xslgy.common.repository.SysConfigRepository;
 import com.xslgy.common.service.SysConfigService;
+import com.xslgy.common.utils.PageUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -53,5 +56,20 @@ public class SysConfigServiceImpl implements SysConfigService {
                 return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
             }
         });
+    }
+
+    @Override
+    public PageUtils findByCode(String code, Pageable pageable) {
+        Page<SysConfig> result = sysConfigRepository.findAll(new Specification<SysConfig>() {
+            @Override
+            public Predicate toPredicate(Root<SysConfig> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                if (!StringUtils.isEmpty(code)) {
+                    predicates.add(criteriaBuilder.like(root.get("code"), "%" + code + "%"));
+                }
+                return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
+            }
+        }, pageable);
+        return new PageUtils(result);
     }
 }

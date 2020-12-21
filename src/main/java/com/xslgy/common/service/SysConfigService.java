@@ -1,6 +1,8 @@
 package com.xslgy.common.service;
 
 import com.xslgy.common.entity.SysConfig;
+import com.xslgy.common.utils.PageUtils;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,4 +22,6 @@ public interface SysConfigService {
      * @return
      */
     List<SysConfig> findByCode(String code);
+
+    PageUtils findByCode(String code, Pageable pageable);
 }
