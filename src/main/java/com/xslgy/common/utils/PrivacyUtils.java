@@ -1,5 +1,8 @@
 package com.xslgy.common.utils;
 
+import com.xslgy.common.entity.SysConfig;
+import com.xslgy.common.service.SysConfigService;
+import com.xslgy.core.exception.XSLGYException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,8 @@ public class PrivacyUtils {
     RestTemplate restTemplate;
     @Value("${newIdeas.rsaDecodeUrl}")
     private String rsaDecodeUrl;
+    @Resource
+    SysConfigService sysConfigService;
 
 
     /**
@@ -30,11 +35,15 @@ public class PrivacyUtils {
      *     如果要查询的话，只能通过完全匹配的方式去查询
      * </pre>
      * @param data  需要加密的数据
-     * @param publicKey 公钥字符串
      * @return
      */
-    public String encode(String data, String publicKey) throws Exception {
-        return new String(RSAUtils.encryptByPublicKey(data.getBytes(StandardCharsets.UTF_8), publicKey), StandardCharsets.UTF_8);
+    public String encode(String data) throws Exception {
+        SysConfig sysConfig = sysConfigService.getByCode(Constant.RSA_PUBLIC_KEY_CODE);
+        if (sysConfig != null) {
+            return new String(RSAUtils.encryptByPublicKey(data.getBytes(StandardCharsets.UTF_8), sysConfig.getValue()), StandardCharsets.UTF_8);
+        } else {
+            throw new XSLGYException("加密公钥为空");
+        }
     }
 
     /**
