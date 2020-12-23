@@ -3,6 +3,7 @@ package com.xslgy.common.entity;
 import com.xslgy.core.entity.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -22,6 +23,7 @@ public class SysConfig extends BaseEntity {
     /**
      * 值
      */
+    @Column(name = "value", length = 2048)
     private String value;
     /**
      * 备注
