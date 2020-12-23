@@ -1,10 +1,12 @@
 package com.xslgy.common.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xslgy.common.entity.SysConfig;
 import com.xslgy.common.service.SysConfigService;
 import com.xslgy.core.exception.XSLGYException;
+import com.xslgy.core.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -40,7 +42,7 @@ public class PrivacyUtils {
     public String encode(String data) throws Exception {
         SysConfig sysConfig = sysConfigService.getByCode(Constant.RSA_PUBLIC_KEY_CODE);
         if (sysConfig != null) {
-            return new String(RSAUtils.encryptByPublicKey(data.getBytes(StandardCharsets.UTF_8), sysConfig.getValue()), StandardCharsets.UTF_8);
+            return Base64Utils.encode(RSAUtils.encryptByPublicKey(data.getBytes(StandardCharsets.UTF_8), sysConfig.getValue()));
         } else {
             throw new XSLGYException("加密公钥为空");
         }
@@ -51,12 +53,18 @@ public class PrivacyUtils {
      * @param data  需要解密的字符串
      * @return
      */
-    public String decode(String data) {
+    public String decode(String data) throws JsonProcessingException {
+        String result = null;
         // 通过http去调用解密的应用
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("data", data);
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(rsaDecodeUrl, params, String.class);
-        return responseEntity.getBody();
+        params.add("encryptData", data);
+        String responseEntity = restTemplate.postForObject(rsaDecodeUrl + "/rsa/decode", params, String.class);
+        JsonNode jsonNode = JsonUtil.string2Json(responseEntity);
+        if (jsonNode != null && !jsonNode.isEmpty() && jsonNode.get("code").asInt() == 200) {
+            // 获取解析结果
+            result = jsonNode.get("data").asText();
+        }
+        return result;
     }
 
     /**
