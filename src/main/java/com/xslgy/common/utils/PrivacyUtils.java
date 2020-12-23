@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 隐私信息处理工具类
@@ -42,7 +41,7 @@ public class PrivacyUtils {
     public String encode(String data) throws Exception {
         SysConfig sysConfig = sysConfigService.getByCode(Constant.RSA_PUBLIC_KEY_CODE);
         if (sysConfig != null) {
-            return Base64Utils.encode(RSAUtils.encryptByPublicKey(data.getBytes(StandardCharsets.UTF_8), sysConfig.getValue()));
+            return RSAUtils.encrypt(data, sysConfig.getValue());
         } else {
             throw new XSLGYException("加密公钥为空");
         }
