@@ -7,3 +7,4 @@ newIdeas:
   cdnUrl: http://localhost
   filePath: d:/test
   rsaDecodeUrl: http://127.0.0.1:89
+  defaultAdminPassword: 123456
