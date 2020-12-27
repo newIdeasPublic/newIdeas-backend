@@ -3,36 +3,30 @@ package com.xslgy.common.entity;
 import com.xslgy.core.entity.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "cms_category")
-public class CmsCategory extends BaseEntity {
+@Table(name = "sys_config")
+public class SysConfig extends BaseEntity {
 
     /**
      * 编码
      */
     private String code;
     /**
-     * 分类名称
+     * 名称
      */
     private String name;
     /**
-     * 父级id
+     * 值
      */
-    private Long parentId;
+    @Column(name = "value", length = 2048)
+    private String value;
     /**
-     * 图片地址
-     */
-    private String imgUrl;
-    /**
-     * 排序
-     */
-    private Integer orerNo;
-    /**
-     * 描述
+     * 备注
      */
     private String remark;
 }
