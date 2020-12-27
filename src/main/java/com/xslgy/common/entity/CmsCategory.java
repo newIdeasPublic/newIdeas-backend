@@ -13,6 +13,7 @@ public class CmsCategory extends BaseEntity {
 
     private String code;
     private String name;
+    private Long parentId;
     private String imgUrl;
     private String description;
 }
