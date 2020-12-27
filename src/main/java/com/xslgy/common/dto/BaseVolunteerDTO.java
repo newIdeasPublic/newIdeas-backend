@@ -30,6 +30,10 @@ public class BaseVolunteerDTO {
     @ApiModelProperty("手机号")
     private String mobile;
 
+    @NotNull(message = "身份证号不能为空")
+    @ApiModelProperty("身份证号")
+    private String idCard;
+
     @ApiModelProperty("民族")
     private String nation;
 

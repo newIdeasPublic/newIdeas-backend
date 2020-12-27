@@ -41,6 +41,9 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Resource
     private VolunteerRepository volunteerRepository;
 
+    // @Resource
+    // private PrivacyUtils privacyUtils;
+
     @Override
     public void addVolunteer(AddVolunteerDTO addVolunteerDTO) {
         log.info("com.xslgy.common.service.impl.VolunteerServiceImpl.addVolunteer；params: {}", addVolunteerDTO);
@@ -52,6 +55,9 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteer.setFreeDate(String.join(DEFAULT_DELIMITER, addVolunteerDTO.getFreeDate()));
         volunteer.setReason(String.join(DEFAULT_DELIMITER, addVolunteerDTO.getReason()));
         volunteer.setSkill(getSkillStr(addVolunteerDTO.getSkill()));
+
+        // 对手机号和身份证进行加密处理
+
         try {
             // 持久化到数据库
             volunteerRepository.save(volunteer);
@@ -117,7 +123,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public VolunteerVO getVolunteerVoById(Long id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new XSLGYException("志愿者档案不存在"));
-        if (BYTE_ZERO.equals(volunteer.getDeleteFlag())){
+        if (BYTE_ZERO.equals(volunteer.getDeleteFlag())) {
             throw new XSLGYException("志愿者档案不存在");
         }
         List<String> skill = Arrays.asList(volunteer.getSkill().split(DEFAULT_DELIMITER));
@@ -149,9 +155,6 @@ public class VolunteerServiceImpl implements VolunteerService {
             if (Objects.nonNull(searchVolunteerDTO.getSex())) {
                 predicateList.add(criteriaBuilder.equal(root.get("sex"), searchVolunteerDTO.getSex()));
             }
-            if (Objects.nonNull(searchVolunteerDTO.getMobile())) {
-                predicateList.add(criteriaBuilder.like(root.get("mobile"), "%" + searchVolunteerDTO.getMobile() + "%"));
-            }
             if (Objects.nonNull(searchVolunteerDTO.getNation())) {
                 predicateList.add(criteriaBuilder.like(root.get("nation"), "%" + searchVolunteerDTO.getNation() + "%"));
             }
@@ -160,6 +163,13 @@ public class VolunteerServiceImpl implements VolunteerService {
             }
             if (Objects.nonNull(searchVolunteerDTO.getSkillCategory())) {
                 predicateList.add(criteriaBuilder.like(root.get("skill"), "%" + searchVolunteerDTO.getSkillCategory() + "%"));
+            }
+            // 查询条件中如果包含手机号和身份证，则进行加密并全匹配
+            if (Objects.nonNull(searchVolunteerDTO.getMobile())) {
+                predicateList.add(criteriaBuilder.equal(root.get("mobile"), searchVolunteerDTO.getMobile()));
+            }
+            if (Objects.nonNull(searchVolunteerDTO.getIdCard())){
+                predicateList.add(criteriaBuilder.equal(root.get("id_card"), searchVolunteerDTO.getIdCard()));
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };
