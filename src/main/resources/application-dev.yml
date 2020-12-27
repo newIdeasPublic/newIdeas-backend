@@ -6,5 +6,5 @@ spring:
 newIdeas:
   cdnUrl: http://localhost
   filePath: d:/test
-  rsaDecodeUrl: http://127.0.0.1:89
+  rsaDecodeUrl: http://frps.zxl78585.com:89
   defaultAdminPassword: 123456
