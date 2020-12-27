@@ -5,25 +5,23 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Data
 @Entity
-@ApiModel("cms分类")
-@Table(name = "cms_category")
-public class CmsCategory extends BaseEntity {
+@ApiModel("系统配置")
+@Table(name = "sys_config")
+public class SysConfig extends BaseEntity {
 
-    @ApiModelProperty("分类编码")
+    @ApiModelProperty("编码")
     private String code;
-    @ApiModelProperty("分类名称")
+    @ApiModelProperty("配置名称")
     private String name;
-    @ApiModelProperty("父级id")
-    private Long parentId;
-    @ApiModelProperty("图片地址")
-    private String imgUrl;
-    @ApiModelProperty("排序号")
-    private Integer orerNo;
+    @ApiModelProperty("配置值")
+    @Column(name = "value", length = 2048)
+    private String value;
     @ApiModelProperty("备注")
     private String remark;
 }
