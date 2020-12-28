@@ -29,12 +29,12 @@ public class CmsContentController extends BaseController {
 
     @ApiOperation(value = "查询内容(带分页）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", readOnly = true),
+            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", readOnly = false),
             @ApiImplicitParam(name = "page", value = "当前页", dataType = "Integer", paramType = "query", readOnly = true),
             @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
     })
     @GetMapping("listPageByCode")
-    public Result listPageByCode(@RequestParam("code")String code, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+    public Result listPageByCode(@RequestParam(value = "code")String code, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
         return ResultUtils.success(cmsContentService.listPageByCode(code, PageRequest.of(page - 1, size)));
     }
     @ApiOperation(value = "查询内容(不带分页）")
