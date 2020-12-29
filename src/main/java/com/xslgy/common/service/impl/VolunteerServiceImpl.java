@@ -8,6 +8,7 @@ import com.xslgy.common.repository.VolunteerRepository;
 import com.xslgy.common.service.VolunteerService;
 import com.xslgy.common.single.SkillSingle;
 import com.xslgy.common.utils.PageUtils;
+import com.xslgy.common.utils.PrivacyUtils;
 import com.xslgy.common.vo.VolunteerVO;
 import com.xslgy.core.exception.XSLGYException;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +42,8 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Resource
     private VolunteerRepository volunteerRepository;
 
-    // @Resource
-    // private PrivacyUtils privacyUtils;
+    @Resource
+    private PrivacyUtils privacyUtils;
 
     @Override
     public void addVolunteer(AddVolunteerDTO addVolunteerDTO) {
@@ -57,6 +58,9 @@ public class VolunteerServiceImpl implements VolunteerService {
         volunteer.setSkill(getSkillStr(addVolunteerDTO.getSkill()));
 
         // 对手机号和身份证进行加密处理
+        String idCard = dateEncode(volunteer.getIdCard()).orElseThrow(() -> new XSLGYException("数据加密失败"));
+        volunteer.setIdCard(idCard);
+
 
         try {
             // 持久化到数据库
@@ -101,7 +105,6 @@ public class VolunteerServiceImpl implements VolunteerService {
                     .setId(volunteer.getId())
                     .setSex(volunteer.getSex())
                     .setName(volunteer.getName())
-                    .setMobile(volunteer.getMobile())
                     .setHomeAddr(volunteer.getHomeAddr())
                     .setEducation(volunteer.getEducation())
                     .setProfessional(volunteer.getProfessional())
@@ -123,7 +126,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     @Override
     public VolunteerVO getVolunteerVoById(Long id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new XSLGYException("志愿者档案不存在"));
-        if (BYTE_ZERO.equals(volunteer.getDeleteFlag())) {
+        if (BYTE_ONE.equals(volunteer.getDeleteFlag())) {
             throw new XSLGYException("志愿者档案不存在");
         }
         List<String> skill = Arrays.asList(volunteer.getSkill().split(DEFAULT_DELIMITER));
@@ -132,11 +135,13 @@ public class VolunteerServiceImpl implements VolunteerService {
         List<String> freeDate = Arrays.asList(volunteer.getFreeDate().split(DEFAULT_DELIMITER));
         VolunteerVO volunteerVO = new VolunteerVO();
         BeanUtils.copyProperties(volunteer, volunteerVO);
+        String idCard = dateDecode(volunteer.getIdCard()).orElseThrow(() -> new XSLGYException("获取身份信息出错"));
+        String mobile = dateDecode(volunteer.getMobile()).orElseThrow(() -> new XSLGYException("获取手机信息出错"));
+
         return volunteerVO
-                .setSkill(skill)
-                .setReason(reason)
-                .setActivity(activity)
-                .setFreeDate(freeDate);
+                .setSkill(skill).setReason(reason)
+                .setIdCard(idCard).setMobile(mobile)
+                .setActivity(activity).setFreeDate(freeDate);
     }
 
     private Specification<Volunteer> getSpecification(SearchVolunteerDTO searchVolunteerDTO) {
@@ -164,12 +169,8 @@ public class VolunteerServiceImpl implements VolunteerService {
             if (Objects.nonNull(searchVolunteerDTO.getSkillCategory())) {
                 predicateList.add(criteriaBuilder.like(root.get("skill"), "%" + searchVolunteerDTO.getSkillCategory() + "%"));
             }
-            // 查询条件中如果包含手机号和身份证，则进行加密并全匹配
             if (Objects.nonNull(searchVolunteerDTO.getMobile())) {
-                predicateList.add(criteriaBuilder.equal(root.get("mobile"), searchVolunteerDTO.getMobile()));
-            }
-            if (Objects.nonNull(searchVolunteerDTO.getIdCard())){
-                predicateList.add(criteriaBuilder.equal(root.get("id_card"), searchVolunteerDTO.getIdCard()));
+                predicateList.add(criteriaBuilder.like(root.get("mobile"), searchVolunteerDTO.getMobile() + "%"));
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };
@@ -208,5 +209,39 @@ public class VolunteerServiceImpl implements VolunteerService {
             builder.append(category).append(SKILL_CATEGORY_CONNECTOR).append(skillItem).append(DEFAULT_DELIMITER);
         }
         return builder.toString();
+    }
+
+    /**
+     * 加密统一调用
+     *
+     * @param date 需要加密的数据
+     * @return Optional<String>
+     */
+    private Optional<String> dateEncode(String date) {
+        log.info("加密方法调用，需要加密的数据为: {}", date);
+        try {
+            String encode = privacyUtils.encode(date);
+            log.info("加密方法调用结果，加密后的结果: {}", encode);
+            return Optional.of(encode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * 解密统一调用
+     *
+     * @param date 需要解密的数据
+     * @return Optional<String>
+     */
+    private Optional<String> dateDecode(String date) {
+        log.info("解密方法调用，需要解密的数据为: {}", date);
+        try {
+            return Optional.of(privacyUtils.decode(date));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

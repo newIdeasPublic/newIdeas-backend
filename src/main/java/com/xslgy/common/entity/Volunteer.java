@@ -25,7 +25,7 @@ public class Volunteer extends BaseEntity {
     @Column(name = "sex", length = 4)
     private String sex;
     private Date birthdate;
-    @Column(name = "mobile", length = 1024)
+    @Column(name = "mobile", length = 20)
     private String mobile;
     private String professional;
     private String education;

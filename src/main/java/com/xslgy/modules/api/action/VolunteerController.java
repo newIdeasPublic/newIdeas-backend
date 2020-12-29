@@ -1,7 +1,6 @@
 package com.xslgy.modules.api.action;
 
 import com.xslgy.common.dto.AddVolunteerDTO;
-import com.xslgy.common.dto.BaseVolunteerDTO;
 import com.xslgy.common.dto.SearchVolunteerDTO;
 import com.xslgy.common.service.VolunteerService;
 import com.xslgy.common.utils.PageUtils;
