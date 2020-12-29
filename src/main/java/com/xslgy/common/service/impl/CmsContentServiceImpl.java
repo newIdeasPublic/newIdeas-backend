@@ -6,6 +6,7 @@ import com.xslgy.common.repository.CmsContentRepository;
 import com.xslgy.common.service.CmsContentService;
 import com.xslgy.common.utils.PageUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,13 @@ public class CmsContentServiceImpl implements CmsContentService {
 
     @Override
     public PageUtils listPageByCode(String code, Pageable pageable) {
-        return new PageUtils(cmsContentRepository.listPageByCode(code, pageable));
+        Page<CmsContent> cmsContents = null;
+        if (StringUtils.isEmpty(code)) {
+            cmsContents = cmsContentRepository.findAll(pageable);
+        } else {
+            cmsContents = cmsContentRepository.listPageByCode(code, pageable);
+        }
+        return new PageUtils(cmsContents);
     }
 
     @Override
@@ -63,6 +70,11 @@ public class CmsContentServiceImpl implements CmsContentService {
 
     @Override
     public CmsContent getById(Long id) {
-        return cmsContentRepository.findById(id).orElse(null);
+        CmsContent cmsContent = cmsContentRepository.findById(id).orElse(null);
+        if (cmsContent != null) {
+            cmsContent.setClickCount(cmsContent.getClickCount() + 1);
+            save(cmsContent);
+        }
+        return cmsContent;
     }
 }
