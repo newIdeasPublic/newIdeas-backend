@@ -32,7 +32,7 @@ public class CompanyPersonalRegist extends BaseEntity {
     private String email;
     @Column(name = "id_card", length = 1024)
     @ApiModelProperty("联系人身份证号，必填")
-    private String id_card;
+    private String idCard;
     @ApiModelProperty("联系人地址")
     private String address;
     @Column(name = "description", length = 1024)

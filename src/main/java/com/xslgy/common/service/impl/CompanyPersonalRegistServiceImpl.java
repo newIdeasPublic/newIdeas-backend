@@ -1,9 +1,12 @@
 package com.xslgy.common.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.xslgy.common.entity.CompanyPersonalRegist;
 import com.xslgy.common.repository.CompanyPersonalRegistRepository;
 import com.xslgy.common.service.CompanyPersonalRegistService;
+import com.xslgy.common.utils.BeanUtils;
 import com.xslgy.common.utils.PageUtils;
+import com.xslgy.common.utils.PrivacyUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +27,8 @@ public class CompanyPersonalRegistServiceImpl implements CompanyPersonalRegistSe
 
     @Resource
     CompanyPersonalRegistRepository companyPersonalRegistRepository;
+    @Resource
+    PrivacyUtils privacyUtils;
 
     @Override
     public PageUtils listPage(String name, String mobile, String companyName, String companyCode, Pageable pageable) {
@@ -55,6 +60,22 @@ public class CompanyPersonalRegistServiceImpl implements CompanyPersonalRegistSe
 
     @Override
     public CompanyPersonalRegist save(CompanyPersonalRegist companyPersonalRegist) {
+        // 身份证号加密处理，id为空，是新增，如果不为空，直接加密。如果id不为空，则先将传过来的数据，覆盖到原有实体上，再做加密，保存
+        if (companyPersonalRegist.getId() == null) {
+            if (!StringUtils.isEmpty(companyPersonalRegist.getIdCard())) {
+                try {
+                    companyPersonalRegist.setIdCard(privacyUtils.decode(companyPersonalRegist.getIdCard()));
+                } catch (JsonProcessingException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        } else {
+            CompanyPersonalRegist company = getById(companyPersonalRegist.getId());
+            if (company != null) {
+                BeanUtils.copyPropertiesIgnoreNull(companyPersonalRegist, company);
+                companyPersonalRegist = company;
+            }
+        }
         return companyPersonalRegistRepository.save(companyPersonalRegist);
     }
 
