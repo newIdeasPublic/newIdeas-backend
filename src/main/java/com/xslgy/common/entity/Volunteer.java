@@ -59,3 +59,4 @@ public class Volunteer extends BaseEntity {
     private String introduceMyself;
     private Byte deleteFlag;
 }
+
