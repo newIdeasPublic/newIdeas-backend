@@ -55,7 +55,15 @@ public class CompanyPersonalRegistServiceImpl implements CompanyPersonalRegistSe
 
     @Override
     public CompanyPersonalRegist getById(Long id) {
-        return companyPersonalRegistRepository.findById(id).orElse(null);
+        CompanyPersonalRegist companyPersonalRegist = companyPersonalRegistRepository.findById(id).orElse(null);
+        if (companyPersonalRegist != null && !StringUtils.isEmpty(companyPersonalRegist.getIdCard())) {
+            try {
+                companyPersonalRegist.setIdCard(privacyUtils.decode(companyPersonalRegist.getIdCard()));
+            } catch (JsonProcessingException e) {
+                log.error(e.getMessage(), e);
+            }
+        }
+        return companyPersonalRegist;
     }
 
     @Override
@@ -64,8 +72,8 @@ public class CompanyPersonalRegistServiceImpl implements CompanyPersonalRegistSe
         if (companyPersonalRegist.getId() == null) {
             if (!StringUtils.isEmpty(companyPersonalRegist.getIdCard())) {
                 try {
-                    companyPersonalRegist.setIdCard(privacyUtils.decode(companyPersonalRegist.getIdCard()));
-                } catch (JsonProcessingException e) {
+                    companyPersonalRegist.setIdCard(privacyUtils.encode(companyPersonalRegist.getIdCard()));
+                } catch (Exception e) {
                     log.error(e.getMessage(), e);
                 }
             }
