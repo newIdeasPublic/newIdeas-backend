@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MessageConfigRepository extends BaseRepository<MessageConfig, Long> {
+
+    MessageConfig getByCode(String code);
 }

@@ -8,6 +8,7 @@ import com.xslgy.modules.api.vo.MemberLoginVO;
 import com.xslgy.modules.api.vo.MemberRegistVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +28,16 @@ public class MemberController extends BaseController {
 
     @PostMapping("regist")
     public Result regist(@RequestBody MemberRegistVO memberRegistVO) {
+        if (StringUtils.isEmpty(memberRegistVO.getUsername()) || StringUtils.isEmpty(memberRegistVO.getPassword())) {
+            return ResultUtils.error("用户名或密码不能为空");
+        }
         return ResultUtils.success(memberService.regist(memberRegistVO));
     }
     @PostMapping("login")
     public Result login(@RequestBody MemberLoginVO memberLoginVO, HttpServletRequest request) {
+        if (StringUtils.isEmpty(memberLoginVO.getUsername()) || StringUtils.isEmpty(memberLoginVO.getPassword())) {
+            return ResultUtils.error("用户名或密码不能为空");
+        }
         return ResultUtils.success(memberService.login(memberLoginVO, request));
     }
 }

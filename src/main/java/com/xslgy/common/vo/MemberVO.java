@@ -18,4 +18,6 @@ public class MemberVO {
     private Integer scope;
     @ApiModelProperty("状态")
     private Integer status;
+    @ApiModelProperty("登陆后的token")
+    private String token;
 }

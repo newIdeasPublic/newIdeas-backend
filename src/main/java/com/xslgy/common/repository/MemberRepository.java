@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberRepository extends BaseRepository<Member, Long> {
+
+    Member getByUsername(String username);
+
+    Member getByMobile(String mobile);
 }

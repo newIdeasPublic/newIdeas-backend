@@ -22,4 +22,8 @@ public interface MemberService {
     MemberVO login(MemberLoginVO memberLoginVO, HttpServletRequest request);
 
     MemberVO regist(MemberRegistVO memberRegistVO);
+
+    Member getByUsername(String username);
+
+    Member getByMobile(String mobile);
 }
