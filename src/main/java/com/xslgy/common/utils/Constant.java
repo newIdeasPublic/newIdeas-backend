@@ -74,4 +74,21 @@ public class Constant {
             this.val = value;
         }
     }
+
+    /**
+     * 短信类型
+     */
+    public enum SMS_TYPE {
+        /**
+         * 验证码短信
+         */
+        VERIFICATE_CODE(1);
+        private int val;
+        public int getValue() {
+            return val;
+        }
+        SMS_TYPE(int value) {
+            this.val = value;
+        }
+    }
 }

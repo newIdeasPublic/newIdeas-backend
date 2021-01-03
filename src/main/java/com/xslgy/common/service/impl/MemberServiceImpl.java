@@ -4,8 +4,8 @@ import com.xslgy.common.entity.Member;
 import com.xslgy.common.repository.MemberRepository;
 import com.xslgy.common.service.MemberService;
 import com.xslgy.common.utils.PageUtils;
-import com.xslgy.common.vo.MemberLoginVO;
 import com.xslgy.common.vo.MemberVO;
+import com.xslgy.modules.api.vo.MemberLoginVO;
 import com.xslgy.modules.api.vo.MemberRegistVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +18,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberVO login(MemberLoginVO memberLoginVO) {
+    public MemberVO login(MemberLoginVO memberLoginVO, HttpServletRequest request) {
         // 先校验空，然后，校验验证码是否正确
 
         return null;

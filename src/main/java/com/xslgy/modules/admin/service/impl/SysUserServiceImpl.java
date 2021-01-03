@@ -63,7 +63,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser result = null;
         if (sysUser.getId() == null) {
             sysUser.setSalt(UUID.randomUUID().toString());
-            if (!StringUtils.isEmpty(sysUser.getPassword())) {
+            if (StringUtils.isEmpty(sysUser.getPassword())) {
                 sysUser.setPassword(defaultAdminPassword);
             }
         } else {
