@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.util.Calendar;
 
@@ -40,6 +41,7 @@ public class SysCaptchaServiceImpl implements SysCaptchaService {
     }
 
     @Override
+    @Transactional
     public boolean validate(String uuid, String code) {
         boolean result = false;
         SysCaptcha sysCaptcha = sysCaptchaRepository.getSysCaptchaByUuid(uuid);

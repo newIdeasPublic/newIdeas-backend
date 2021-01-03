@@ -1,5 +1,7 @@
 package com.xslgy.modules.admin.action;
 
+import com.xslgy.common.utils.BeanUtils;
+import com.xslgy.common.utils.MD5Utils;
 import com.xslgy.core.action.BaseController;
 import com.xslgy.core.utils.Result;
 import com.xslgy.core.utils.ResultUtils;
@@ -14,7 +16,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @Api(tags = "登录")
 @RestController
@@ -64,11 +64,12 @@ public class LoginController extends BaseController {
             }
             // 查询图形验证码
             boolean validate = sysCaptchaService.validate(loginVO.getUuid(), loginVO.getCode());
-            if (sysUser != null && (PasswordUtils.encode(loginVO.getPassword(), sysUser.getSalt()).equals(sysUser.getPassword()))) {
+            if (sysUser != null && (PasswordUtils.encode(loginVO.getPassword(), sysUser.getSalt()).equals(sysUser.getPassword())) && validate) {
                 String userAgent = request.getHeader("user-agent");
                 String remoteIp = request.getRemoteHost();
-                String token = MD5Encoder.encode((loginVO.getUsername() + "|" + loginVO.getPassword() + "|" + userAgent + "|" + remoteIp + "|" + System.currentTimeMillis()).getBytes(StandardCharsets.UTF_8));
+                String token = MD5Utils.encrypt(loginVO.getUsername() + "|" + loginVO.getPassword() + "|" + userAgent + "|" + remoteIp + "|" + System.currentTimeMillis());
                 request.getSession(true).setAttribute("token", token);
+                BeanUtils.copyProperties(sysUser, result);
                 result.setToken(token);
                 return ResultUtils.success(result);
             } else {
