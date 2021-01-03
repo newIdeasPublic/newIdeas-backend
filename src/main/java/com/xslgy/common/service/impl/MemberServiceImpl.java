@@ -1,16 +1,22 @@
 package com.xslgy.common.service.impl;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.xslgy.common.entity.Member;
 import com.xslgy.common.repository.MemberRepository;
 import com.xslgy.common.service.MemberService;
+import com.xslgy.common.service.MessageService;
 import com.xslgy.common.utils.BeanUtils;
+import com.xslgy.common.utils.Constant;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.utils.PrivacyUtils;
 import com.xslgy.common.vo.MemberVO;
 import com.xslgy.core.exception.XSLGYException;
+import com.xslgy.modules.admin.service.SysCaptchaService;
 import com.xslgy.modules.admin.utils.PasswordUtils;
 import com.xslgy.modules.api.vo.MemberLoginVO;
 import com.xslgy.modules.api.vo.MemberRegistVO;
+import com.xslgy.modules.api.vo.SendSMSVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Service
@@ -36,6 +43,10 @@ public class MemberServiceImpl implements MemberService {
     MemberRepository memberRepository;
     @Resource
     PrivacyUtils privacyUtils;
+    @Resource
+    SysCaptchaService sysCaptchaService;
+    @Resource
+    MessageService messageService;
 
     @Override
     public PageUtils findAll(String name, String mobile, Pageable pageable) {
@@ -118,5 +129,21 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getByMobile(String mobile) {
         return memberRepository.getByMobile(mobile);
+    }
+
+    @Override
+    public boolean sendSms(SendSMSVO sendSMSVO, HttpServletRequest request) {
+        boolean result = false;
+        // 校验图形验证码是否存在
+        boolean validate = sysCaptchaService.validate(sendSMSVO.getUuid(), sendSMSVO.getCode());
+        if (validate) {
+            // 生成随机短信验证码，发送给手机，并且，写入sesion中
+            String code = String.format("%04d",new Random().nextInt(9999));
+            request.getSession(true).setAttribute("smsCode", code);
+            ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
+            objectNode.put("code", code);
+            result = messageService.sendSmsMessage(sendSMSVO.getMobile(), Constant.SMS_TYPE.VERIFICATE_CODE.getValue(), objectNode);
+        }
+        return result;
     }
 }

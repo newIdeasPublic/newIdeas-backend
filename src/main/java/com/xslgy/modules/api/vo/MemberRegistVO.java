@@ -15,8 +15,6 @@ public class MemberRegistVO {
     private String mobile;
     @ApiModelProperty("密码")
     private String password;
-    @ApiModelProperty("验证码")
+    @ApiModelProperty("短信验证码")
     private String code;
-    @ApiModelProperty("验证码编号")
-    private String uuid;
 }

@@ -82,13 +82,18 @@ public class Constant {
         /**
          * 验证码短信
          */
-        VERIFICATE_CODE(1);
+        VERIFICATE_CODE(1, "login_sms");
         private int val;
+        private String code;
         public int getValue() {
             return val;
         }
-        SMS_TYPE(int value) {
+        public String getCode() {
+            return code;
+        }
+        SMS_TYPE(int value, String code) {
             this.val = value;
+            this.code = code;
         }
     }
 }

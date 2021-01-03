@@ -5,6 +5,7 @@ import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.MemberVO;
 import com.xslgy.modules.api.vo.MemberLoginVO;
 import com.xslgy.modules.api.vo.MemberRegistVO;
+import com.xslgy.modules.api.vo.SendSMSVO;
 import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,4 +27,6 @@ public interface MemberService {
     Member getByUsername(String username);
 
     Member getByMobile(String mobile);
+
+    boolean sendSms(SendSMSVO sendSMSVO, HttpServletRequest request);
 }

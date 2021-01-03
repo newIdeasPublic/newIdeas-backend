@@ -6,6 +6,7 @@ import com.xslgy.core.utils.Result;
 import com.xslgy.core.utils.ResultUtils;
 import com.xslgy.modules.api.vo.MemberLoginVO;
 import com.xslgy.modules.api.vo.MemberRegistVO;
+import com.xslgy.modules.api.vo.SendSMSVO;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -39,5 +40,9 @@ public class MemberController extends BaseController {
             return ResultUtils.error("用户名或密码不能为空");
         }
         return ResultUtils.success(memberService.login(memberLoginVO, request));
+    }
+    @PostMapping("sendSms")
+    public Result sendSms(@RequestBody SendSMSVO sendSMSVO, HttpServletRequest request) {
+        return ResultUtils.success(memberService.sendSms(sendSMSVO, request));
     }
 }

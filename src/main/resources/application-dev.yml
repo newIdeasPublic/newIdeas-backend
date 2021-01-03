@@ -8,3 +8,7 @@ newIdeas:
   filePath: d:/test
   rsaDecodeUrl: http://frps.zxl78585.com:89
   defaultAdminPassword: 123456
+  sms:
+    accessKeyId: LTAIkr87bqlh9YCj
+    accessSecret: 40P10gM1AVdNsqqpS6RqMSo8aENAh9
+    sign: 赵新乐
