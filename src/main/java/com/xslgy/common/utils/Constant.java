@@ -11,8 +11,17 @@ public class Constant {
      * 个人、个体工商、企业范围枚举
      */
     public enum FormScope {
+        /**
+         * 个人
+         */
         PERSONAL(1),
+        /**
+         * 个体工商
+         */
         INDIVIDUAL_BUSINESS(2),
+        /**
+         * 企业
+         */
         COMPANY(3);
 
         private int val;
@@ -20,6 +29,48 @@ public class Constant {
             return val;
         }
         FormScope(int value) {
+            this.val = value;
+        }
+    }
+
+    /**
+     * 会员状态：0启用，1禁用
+     */
+    public enum MemberStatus {
+        /**
+         * 启用
+         */
+        ENABLED(0),
+        /**
+         * 禁用
+         */
+        DISABLED(1);
+        private int val;
+        public int getValue() {
+            return val;
+        }
+        MemberStatus(int value) {
+            this.val = value;
+        }
+    }
+
+    /**
+     * 是否
+     */
+    public enum SF {
+        /**
+         * 是
+         */
+        YES(1),
+        /**
+         * 否
+         */
+        NO(0);
+        private int val;
+        public int getValue() {
+            return val;
+        }
+        SF(int value) {
             this.val = value;
         }
     }

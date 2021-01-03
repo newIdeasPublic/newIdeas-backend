@@ -37,16 +37,16 @@ public class CompanyPersonalRegistServiceImpl implements CompanyPersonalRegistSe
             public Predicate toPredicate(Root<CompanyPersonalRegist> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
                 if (!StringUtils.isEmpty(name)) {
-                    criteriaBuilder.like(root.get("name"), "%" + name + "%");
+                    predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
                 }
                 if (!StringUtils.isEmpty(mobile)) {
-                    criteriaBuilder.equal(root.get("mobile"), mobile);
+                    predicates.add(criteriaBuilder.equal(root.get("mobile"), mobile));
                 }
                 if (!StringUtils.isEmpty(companyCode)) {
-                    criteriaBuilder.equal(root.get("company_code"), companyCode);
+                    predicates.add(criteriaBuilder.equal(root.get("company_code"), companyCode));
                 }
                 if (!StringUtils.isEmpty(companyName)) {
-                    criteriaBuilder.like(root.get("company_name"), "%" + companyName + "%");
+                    predicates.add(criteriaBuilder.like(root.get("company_name"), "%" + companyName + "%"));
                 }
                 return criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()])).getGroupRestriction();
             }
