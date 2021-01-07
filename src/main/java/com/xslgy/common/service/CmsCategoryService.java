@@ -19,4 +19,6 @@ public interface CmsCategoryService {
     CmsCategory getByCode(String code);
 
     List<CmsCategory> getByParentId(Long parentId);
+
+    CmsCategory hideOrShow(Long id, Integer isShow);
 }

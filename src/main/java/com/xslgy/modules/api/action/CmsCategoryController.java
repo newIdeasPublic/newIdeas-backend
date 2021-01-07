@@ -7,6 +7,7 @@ import com.xslgy.core.action.BaseController;
 import com.xslgy.core.exception.XSLGYException;
 import com.xslgy.core.utils.Result;
 import com.xslgy.core.utils.ResultUtils;
+import com.xslgy.modules.api.vo.CategoryShowVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -72,5 +73,10 @@ public class CmsCategoryController extends BaseController {
     @ApiImplicitParam(name = "parentId", value = "上一级ID", dataType = "Long", paramType = "path", required = true)
     public Result getByParentId(@PathVariable("parentId")Long parentId) {
         return ResultUtils.success(cmsCategoryService.getByParentId(parentId));
+    }
+    @ApiOperation("通过id修改分类的隐藏/显示状态")
+    @PostMapping("isShow")
+    public Result isShow(@RequestBody CategoryShowVO categoryShowVO) {
+        return ResultUtils.success(cmsCategoryService.hideOrShow(categoryShowVO.getId(), categoryShowVO.getIsShow()));
     }
 }
