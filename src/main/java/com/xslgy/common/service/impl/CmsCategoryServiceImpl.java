@@ -74,13 +74,13 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public List<CmsCategory> getByParentId(Long parentId) {
-        return cmsCategoryRepository.findByParentIdOOrderByOrerNoDesc(parentId);
+        return cmsCategoryRepository.findByParentIdOrderByOrerNoDesc(parentId);
     }
 
     @Override
     public CmsCategory hideOrShow(Long id, Integer isShow) {
         CmsCategory category = getById(id);
-        category.setShow(isShow);
+        category.setIsShow(isShow);
         return save(category);
     }
 }
