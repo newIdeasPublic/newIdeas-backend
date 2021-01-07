@@ -56,4 +56,9 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     public CmsCategory getByCode(String code) {
         return cmsCategoryRepository.getCmsCategoryByCode(code);
     }
+
+    @Override
+    public List<CmsCategory> getByParentId(Long parentId) {
+        return cmsCategoryRepository.findByParentIdOOrderByOrerNoDesc(parentId);
+    }
 }

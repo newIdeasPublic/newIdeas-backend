@@ -26,4 +26,6 @@ public class CmsCategory extends BaseEntity {
     private Integer orerNo;
     @ApiModelProperty("备注")
     private String remark;
+    @ApiModelProperty("在菜单中是否显示：1是，0否")
+    private Integer show;
 }
