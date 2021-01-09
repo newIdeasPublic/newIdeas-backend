@@ -41,7 +41,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public CmsCategory save(CmsCategory cmsCategory) {
-        if (cmsCategory.getParentId() == null) {
+        if (cmsCategory.getParentId() == null || cmsCategory.getParentId() == 0) {
             // parentId为空的时候，默认为顶级菜单
             cmsCategory.setParentId(0L);
         } else {
