@@ -23,7 +23,7 @@ public class CmsCategory extends BaseEntity {
     @ApiModelProperty("图片地址")
     private String imgUrl;
     @ApiModelProperty("排序号")
-    private Integer orerNo;
+    private Integer orderNo;
     @ApiModelProperty("备注")
     private String remark;
     @ApiModelProperty("在菜单中是否显示：1是，0否")

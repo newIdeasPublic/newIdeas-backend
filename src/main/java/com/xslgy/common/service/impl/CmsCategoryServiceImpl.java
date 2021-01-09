@@ -74,7 +74,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public List<CmsCategory> getByParentId(Long parentId) {
-        return cmsCategoryRepository.findByParentIdOrderByOrerNoDesc(parentId);
+        return cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(parentId);
     }
 
     @Override

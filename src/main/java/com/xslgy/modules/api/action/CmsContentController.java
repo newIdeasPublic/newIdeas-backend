@@ -36,7 +36,7 @@ public class CmsContentController extends BaseController {
     })
     @GetMapping("listPageByCode")
     public Result listPageByCode(@RequestParam(value = "code", required = false)String code, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
-        return ResultUtils.success(cmsContentService.listPageByCode(code, PageRequest.of(page - 1, size, Sort.by("order_no"))));
+        return ResultUtils.success(cmsContentService.listPageByCode(code, PageRequest.of(page - 1, size, Sort.by("orderNo"))));
     }
     @ApiOperation(value = "查询内容(不带分页）")
     @ApiImplicitParams({

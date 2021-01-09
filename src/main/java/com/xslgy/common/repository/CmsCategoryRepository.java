@@ -11,5 +11,5 @@ public interface CmsCategoryRepository extends BaseRepository<CmsCategory, Long>
 
     CmsCategory getCmsCategoryByCode(String code);
 
-    List<CmsCategory> findByParentIdOrderByOrerNoDesc(Long parentId);
+    List<CmsCategory> findByParentIdOrderByOrderNoDesc(Long parentId);
 }
