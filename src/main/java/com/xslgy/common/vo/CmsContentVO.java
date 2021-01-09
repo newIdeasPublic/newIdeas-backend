@@ -29,5 +29,14 @@ public class CmsContentVO {
     private Integer orderNo;
     @ApiModelProperty("状态")
     private Integer status;
-
+    @ApiModelProperty("备注")
+    @Column(name = "remark", length = 4096)
+    private String remark;
+    @ApiModelProperty("点击量")
+    private Integer clickCount;
+    @ApiModelProperty("作者")
+    private String author;
+    @ApiModelProperty("标签，以分号分隔")
+    @Column(name = "tags", length = 255)
+    private String tags;
 }
