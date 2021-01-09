@@ -13,6 +13,14 @@ public class CmsCategoryVO {
     private String name;
     @ApiModelProperty("cms分类编码")
     private String code;
-    @ApiModelProperty("cms分类描述")
-    private String description;
+    @ApiModelProperty("父级id")
+    private Long parentId;
+    @ApiModelProperty("图片地址")
+    private String imgUrl;
+    @ApiModelProperty("排序号")
+    private Integer orderNo;
+    @ApiModelProperty("备注")
+    private String remark;
+    @ApiModelProperty("在菜单中是否显示：1是，0否")
+    private Integer isShow;
 }
