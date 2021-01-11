@@ -66,8 +66,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
     public CmsCategory getById(Long id) {
         CmsCategory cmsCategory = cmsCategoryRepository.findById(id).orElse(null);
         if (cmsCategory != null) {
-            List<CmsCategory> cmsCategories = cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(id);
-            cmsCategory.setHasChildren(!CollectionUtils.isEmpty(cmsCategories));
+            cmsCategory.setHasChildren(cmsCategoryRepository.countCmsCategoriesByParentId(id) > 0);
         }
         return cmsCategory;
     }
@@ -79,7 +78,14 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public List<CmsCategory> getByParentId(Long parentId) {
-        return cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(parentId);
+        List<CmsCategory> cmsCategorys = cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(parentId);
+        if (!CollectionUtils.isEmpty(cmsCategorys)) {
+            cmsCategorys.forEach(cms -> {
+               cms.setHasChildren(cmsCategoryRepository.countCmsCategoriesByParentId(cms.getId()) > 0);
+            });
+        }
+
+        return cmsCategorys;
     }
 
     @Override
