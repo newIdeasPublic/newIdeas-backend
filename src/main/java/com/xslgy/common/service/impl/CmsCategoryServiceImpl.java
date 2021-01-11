@@ -64,7 +64,12 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public CmsCategory getById(Long id) {
-        return cmsCategoryRepository.findById(id).orElse(null);
+        CmsCategory cmsCategory = cmsCategoryRepository.findById(id).orElse(null);
+        if (cmsCategory != null) {
+            List<CmsCategory> cmsCategories = cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(id);
+            cmsCategory.setHasChildren(!CollectionUtils.isEmpty(cmsCategories));
+        }
+        return cmsCategory;
     }
 
     @Override
