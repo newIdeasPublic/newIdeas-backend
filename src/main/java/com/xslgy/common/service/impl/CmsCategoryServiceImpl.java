@@ -41,7 +41,7 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public CmsCategory save(CmsCategory cmsCategory) {
-        if (cmsCategory.getParentId() == null) {
+        if (cmsCategory.getParentId() == null || cmsCategory.getParentId() == 0) {
             // parentId为空的时候，默认为顶级菜单
             cmsCategory.setParentId(0L);
         } else {
@@ -64,7 +64,12 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public CmsCategory getById(Long id) {
-        return cmsCategoryRepository.findById(id).orElse(null);
+        CmsCategory cmsCategory = cmsCategoryRepository.findById(id).orElse(null);
+        if (cmsCategory != null) {
+            List<CmsCategory> cmsCategories = cmsCategoryRepository.findByParentIdOrderByOrderNoDesc(id);
+            cmsCategory.setHasChildren(!CollectionUtils.isEmpty(cmsCategories));
+        }
+        return cmsCategory;
     }
 
     @Override

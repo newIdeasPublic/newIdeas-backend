@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Data
 @Entity
@@ -28,4 +29,7 @@ public class CmsCategory extends BaseEntity {
     private String remark;
     @ApiModelProperty("在菜单中是否显示：1是，0否")
     private Integer isShow;
+    @Transient
+    @ApiModelProperty("是否有子节点")
+    private boolean hasChildren;
 }
