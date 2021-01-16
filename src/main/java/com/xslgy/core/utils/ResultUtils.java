@@ -1,6 +1,6 @@
 package com.xslgy.core.utils;
 
-public class ResultUtils {
+public class ResultUtils<T> {
 
     private final static int SUCCESS_CODE = 200;
     private final static String SUCCESS_MESSAGE = "成功";
@@ -8,19 +8,19 @@ public class ResultUtils {
     private final static int ERROR_CODE = 500;
     private final static String ERROR_MESSAGE = "失败";
 
-    public static Result success(Object data) {
-        return new Result(SUCCESS_CODE, SUCCESS_MESSAGE, data);
+    public static <T> Result<T> success(T t) {
+        return new Result<>(SUCCESS_CODE, SUCCESS_MESSAGE, t);
     }
 
-    public static Result success() {
+    public static <T> Result<T> success() {
         return success(null);
     }
 
-    public static Result error(int code, String message) {
-        return new Result(code, message);
+    public static <T> Result<T> error(int code, String message) {
+        return new Result<T>(code, message);
     }
 
-    public static Result error(String message) {
-        return new Result(ERROR_CODE, message);
+    public static <T> Result<T> error(String message) {
+        return new Result<T>(ERROR_CODE, message);
     }
 }
