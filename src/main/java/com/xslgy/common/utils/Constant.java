@@ -6,6 +6,10 @@ public class Constant {
      * 隐私数据加密用的公钥
      */
     public final static String RSA_PUBLIC_KEY_CODE = "rsa_public_key";
+    /**
+     * 阿里大鱼短信配置信息
+     */
+    public final static String ALI_SMS_ACCOUNT = "ali_sms_account";
 
     /**
      * 个人、个体工商、企业范围枚举
