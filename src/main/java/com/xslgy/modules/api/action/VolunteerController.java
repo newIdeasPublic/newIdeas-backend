@@ -26,9 +26,9 @@ import javax.validation.constraints.NotNull;
  * @Description : 志愿者相关控制层接口
  */
 @Slf4j
-@Api(tags = {"志愿者相关接口"})
-@RestController
 @Validated
+@RestController
+@Api(tags = {"志愿者相关接口"})
 @RequestMapping("/api/volunteer")
 public class VolunteerController extends BaseController {
 
@@ -52,7 +52,7 @@ public class VolunteerController extends BaseController {
     }
 
     @ApiOperation("分页查询志愿者列表")
-    @PostMapping("/list/page")
+    @GetMapping("/list/page")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数", defaultValue = "1")
@@ -60,8 +60,7 @@ public class VolunteerController extends BaseController {
     public Result<PageUtils> getVolunteerPage(
             @RequestBody SearchVolunteerDTO searchVolunteerDTO,
             @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum,
-            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
-    ) {
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         log.info("调用【分页查询志愿者列表】接口: {}；pageNum:{}；pageSize:{}", searchVolunteerDTO, pageNum, pageSize);
         return ResultUtils.success(volunteerService.getVolunteerPage(searchVolunteerDTO, pageNum, pageSize));
     }

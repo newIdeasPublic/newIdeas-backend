@@ -7,13 +7,12 @@ import com.xslgy.common.entity.Volunteer;
 import com.xslgy.common.repository.VolunteerRepository;
 import com.xslgy.common.service.VolunteerService;
 import com.xslgy.common.single.SkillSingle;
+import com.xslgy.common.utils.BeanUtils;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.utils.PrivacyUtils;
 import com.xslgy.common.vo.VolunteerVO;
 import com.xslgy.core.exception.XSLGYException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.Predicate;
-import java.beans.PropertyDescriptor;
 import java.util.*;
 
 /**
@@ -49,7 +47,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     public void addVolunteer(AddVolunteerDTO addVolunteerDTO) {
         log.info("com.xslgy.common.service.impl.VolunteerServiceImpl.addVolunteer；params: {}", addVolunteerDTO);
         Volunteer volunteer = new Volunteer();
-        BeanUtils.copyProperties(addVolunteerDTO, volunteer);
+        BeanUtils.copyPropertiesIgnoreNull(addVolunteerDTO, volunteer);
         volunteer.setDeleteFlag(BYTE_ZERO);
         // 将数组转换成字符串
         volunteer.setActivity(String.join(DEFAULT_DELIMITER, addVolunteerDTO.getActivity()));
@@ -77,7 +75,7 @@ public class VolunteerServiceImpl implements VolunteerService {
             throw new XSLGYException("主键ID不能为空");
         }
         Volunteer volunteer = volunteerRepository.findById(addVolunteerDTO.getId()).orElseThrow(() -> new XSLGYException("用户不存在"));
-        BeanUtils.copyProperties(addVolunteerDTO, volunteer, getNullPropertyName(addVolunteerDTO));
+        BeanUtils.copyPropertiesIgnoreNull(addVolunteerDTO, volunteer);
         if (CollectionUtils.isNotEmpty(addVolunteerDTO.getActivity())) {
             volunteer.setActivity(String.join(DEFAULT_DELIMITER, addVolunteerDTO.getActivity()));
         }
@@ -127,7 +125,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     public VolunteerVO getVolunteerVoById(Long id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(() -> new XSLGYException("志愿者档案不存在"));
         if (BYTE_ONE.equals(volunteer.getDeleteFlag())) {
-            throw new XSLGYException("志愿者档案不存在");
+            throw new XSLGYException("志愿者档案已删除");
         }
         List<String> skill = Arrays.asList(volunteer.getSkill().split(DEFAULT_DELIMITER));
         List<String> reason = Arrays.asList(volunteer.getReason().split(DEFAULT_DELIMITER));
@@ -174,26 +172,6 @@ public class VolunteerServiceImpl implements VolunteerService {
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };
-    }
-
-    /**
-     * <pre>获取对象中字段为值为Null的字段列表</pre>
-     * <pre>目前是为防止更新信息时，使用BeanUtils.copyProperties时将原有的数据覆盖</pre>
-     *
-     * @param object 对象
-     * @return String[]
-     */
-    private static String[] getNullPropertyName(Object object) {
-        BeanWrapperImpl beanWrapper = new BeanWrapperImpl(object);
-        PropertyDescriptor[] propertyDescriptors = beanWrapper.getPropertyDescriptors();
-        Set<String> emptyName = new HashSet<>();
-        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-            Object propertyValue = beanWrapper.getPropertyValue(propertyDescriptor.getName());
-            if (Objects.isNull(propertyValue)) {
-                emptyName.add(propertyDescriptor.getName());
-            }
-        }
-        return emptyName.toArray(new String[0]);
     }
 
     private static String getSkillStr(List<String> skill) {
