@@ -30,8 +30,10 @@ public class SysUserController extends BaseController {
             @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", required = true),
             @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", required = true)
     })
-    public Result list(@RequestParam("username")String username, @RequestParam("mobile")String mobile,
-                       @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+    public Result list(@RequestParam(value = "username", required = false)String username,
+                       @RequestParam(value = "mobile", required = false)String mobile,
+                       @RequestParam("page")Integer page,
+                       @RequestParam("size")Integer size) {
         return ResultUtils.success(sysUserService.findAllPage(username, mobile, PageRequest.of(page - 1, size)));
     }
     @ApiOperation("通过id获取用户详情")

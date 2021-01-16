@@ -72,6 +72,9 @@ public class CmsContentServiceImpl implements CmsContentService {
     public CmsContent getById(Long id) {
         CmsContent cmsContent = cmsContentRepository.findById(id).orElse(null);
         if (cmsContent != null) {
+            if (cmsContent.getClickCount() == null) {
+                cmsContent.setClickCount(0);
+            }
             cmsContent.setClickCount(cmsContent.getClickCount() + 1);
             save(cmsContent);
         }

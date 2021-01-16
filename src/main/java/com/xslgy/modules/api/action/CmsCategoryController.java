@@ -7,6 +7,7 @@ import com.xslgy.core.action.BaseController;
 import com.xslgy.core.exception.XSLGYException;
 import com.xslgy.core.utils.Result;
 import com.xslgy.core.utils.ResultUtils;
+import com.xslgy.modules.api.vo.CategoryShowVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,9 +31,9 @@ public class CmsCategoryController extends BaseController {
     @ApiOperation("查询cms分类（带分页）")
     @GetMapping("list")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "分类名称", dataType = "String", paramType = "query", readOnly = false),
-            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", readOnly = true),
-            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
+            @ApiImplicitParam(name = "name", value = "分类名称", dataType = "String", paramType = "query", required = false),
+            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", required = true)
     })
     public Result list(@RequestParam(name = "name", required = false)String name, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
         return ResultUtils.success(cmsCategoryService.list(name, PageRequest.of(page - 1, size)));
@@ -56,15 +57,26 @@ public class CmsCategoryController extends BaseController {
     }
     @ApiOperation("通过id删除cms分类")
     @PostMapping("delete/{id}")
-    @ApiImplicitParam(name = "id", value = "cms分类id", dataType = "Long", paramType = "path", readOnly = true)
+    @ApiImplicitParam(name = "id", value = "cms分类id", dataType = "Long", paramType = "path", required = true)
     public Result update(@PathVariable("id")Long id) {
         cmsCategoryService.deleteById(id);
         return ResultUtils.success();
     }
     @ApiOperation("通过id获取详情内容")
     @GetMapping("get/{id}")
-    @ApiImplicitParam(name = "id", value = "内容id", dataType = "Long", paramType = "path", readOnly = true)
+    @ApiImplicitParam(name = "id", value = "内容id", dataType = "Long", paramType = "path", required = true)
     public Result get(@PathVariable("id")Long id) {
         return ResultUtils.success(cmsCategoryService.getById(id));
+    }
+    @ApiOperation("通过parentId获取分类列表")
+    @GetMapping("getByParentId/{parentId}")
+    @ApiImplicitParam(name = "parentId", value = "上一级ID", dataType = "Long", paramType = "path", required = true)
+    public Result getByParentId(@PathVariable("parentId")Long parentId) {
+        return ResultUtils.success(cmsCategoryService.getByParentId(parentId));
+    }
+    @ApiOperation("通过id修改分类的隐藏/显示状态")
+    @PostMapping("isShow")
+    public Result isShow(@RequestBody CategoryShowVO categoryShowVO) {
+        return ResultUtils.success(cmsCategoryService.hideOrShow(categoryShowVO.getId(), categoryShowVO.getIsShow()));
     }
 }

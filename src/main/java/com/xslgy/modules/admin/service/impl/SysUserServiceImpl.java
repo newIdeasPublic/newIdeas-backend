@@ -62,8 +62,9 @@ public class SysUserServiceImpl implements SysUserService {
         // 判断id是否为空，如果为空，新增、如果不为空，判断密码是否有变动
         SysUser result = null;
         if (sysUser.getId() == null) {
+            // 新增用户时，保证用户名和手机号都是唯一的
             sysUser.setSalt(UUID.randomUUID().toString());
-            if (!StringUtils.isEmpty(sysUser.getPassword())) {
+            if (StringUtils.isEmpty(sysUser.getPassword())) {
                 sysUser.setPassword(defaultAdminPassword);
             }
         } else {

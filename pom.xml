@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.0</version>
+        <version>2.4.1</version>
     </parent>
     <groupId>com.xslgy</groupId>
     <artifactId>newIdeas-backend</artifactId>
@@ -19,6 +19,7 @@
         <kinfe4j.version>2.0.8</kinfe4j.version>
         <mysql.version>5.1.48</mysql.version>
         <kaptcha.version>0.0.9</kaptcha.version>
+        <aliyun-sdk.version>4.5.3</aliyun-sdk.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,12 @@
             <groupId>com.github.axet</groupId>
             <artifactId>kaptcha</artifactId>
             <version>${kaptcha.version}</version>
+        </dependency>
+        <!--阿里大鱼短信-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>${aliyun-sdk.version}</version>
         </dependency>
     </dependencies>
 

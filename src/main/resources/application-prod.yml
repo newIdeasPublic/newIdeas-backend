@@ -8,3 +8,7 @@ newIdeas:
   filePath: /data/appdir/upload
   rsaDecodeUrl: http://127.0.0.1:89
   defaultAdminPassword: 123456
+  sms:
+    accessKeyId:
+    accessSecret:
+    sign: 赵新乐

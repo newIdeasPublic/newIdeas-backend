@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -29,19 +30,19 @@ public class CmsContentController extends BaseController {
 
     @ApiOperation(value = "查询内容(带分页）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", readOnly = false),
-            @ApiImplicitParam(name = "page", value = "当前页", dataType = "Integer", paramType = "query", readOnly = true),
-            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
+            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", required = false),
+            @ApiImplicitParam(name = "page", value = "当前页", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", required = true)
     })
     @GetMapping("listPageByCode")
     public Result listPageByCode(@RequestParam(value = "code", required = false)String code, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
-        return ResultUtils.success(cmsContentService.listPageByCode(code, PageRequest.of(page - 1, size)));
+        return ResultUtils.success(cmsContentService.listPageByCode(code, PageRequest.of(page - 1, size, Sort.by("orderNo"))));
     }
     @ApiOperation(value = "查询内容(不带分页）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", readOnly = true),
-            @ApiImplicitParam(name = "page", value = "当前页", dataType = "Integer", paramType = "query", readOnly = true),
-            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
+            @ApiImplicitParam(name = "code", value = "分类标识", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "page", value = "当前页", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", required = true)
     })
     @GetMapping("listByCode")
     public Result listByCode(@RequestParam("code")String code) {
@@ -67,23 +68,23 @@ public class CmsContentController extends BaseController {
     }
     @ApiOperation(value = "通过id删除内容")
     @PostMapping("delete/{id}")
-    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", readOnly = true)
+    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", required = true)
     public Result delete(@PathVariable("id")Long id) {
         cmsContentService.deleteById(id);
         return ResultUtils.success();
     }
     @ApiOperation(value = "通过id获取内容")
     @GetMapping("get/{id}")
-    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", readOnly = true)
+    @ApiImplicitParam(name = "id", value = "内容Id", dataType = "Long", paramType = "path", required = true)
     public Result get(@PathVariable("id")Long id) {
         return ResultUtils.success(cmsContentService.getById(id));
     }
     @ApiOperation(value = "通过标题模糊查询（带分页）")
     @GetMapping("listPageByTitle")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "title", value = "标题", dataType = "String", paramType = "query", readOnly = false),
-            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", readOnly = true),
-            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", readOnly = true)
+            @ApiImplicitParam(name = "title", value = "标题", dataType = "String", paramType = "query", required = false),
+            @ApiImplicitParam(name = "page", value = "页码", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "size", value = "每页记录数", dataType = "Integer", paramType = "query", required = true)
     })
     public Result listPageByTitle(@RequestParam(value = "title", required = false)String title, @RequestParam("page")Integer page, @RequestParam("size")Integer size) {
         return ResultUtils.success(cmsContentService.listPageByTitle(title, PageRequest.of(page - 1, size)));
