@@ -52,7 +52,7 @@ public class VolunteerController extends BaseController {
     }
 
     @ApiOperation("分页查询志愿者列表")
-    @GetMapping("/list/page")
+    @PostMapping("/list/page")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数", defaultValue = "1")
