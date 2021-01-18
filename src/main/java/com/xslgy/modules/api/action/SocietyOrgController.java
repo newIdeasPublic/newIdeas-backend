@@ -50,7 +50,7 @@ public class SocietyOrgController {
     }
 
     @ApiOperation("分页查询社会组织")
-    @GetMapping("/list/page")
+    @PostMapping("/list/page")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageSize", value = "每页显示的记录数", defaultValue = "10"),
             @ApiImplicitParam(name = "pageNum", value = "当前页数", defaultValue = "1")

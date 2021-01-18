@@ -10,11 +10,9 @@ import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.SocietyOrgVO;
 import com.xslgy.core.exception.XSLGYException;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.internal.util.privilegedactions.NewSchema;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -69,10 +67,11 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
     @Override
     public PageUtils selectSocietyOrgPage(SearchSocietyOrgDTO searchSocietyOrgDTO, Integer pageNum, Integer pageSize) {
         log.info("com.xslgy.common.service.impl.SocietyOrgServiceImpl.selectSocietyOrgPage; params: {}，pageNum: {}；pageSize: {}", searchSocietyOrgDTO, pageNum, pageSize);
-        Page<SocietyOrg> page = societyOrgRepository.findAll(getSpecification(searchSocietyOrgDTO), PageRequest.of(pageNum-1, pageSize));
-        List<SocietyOrgVO> societyOrgVOS = new ArrayList<>(pageSize);
+
+        Page<SocietyOrg> page = societyOrgRepository.findAll(getSpecification(searchSocietyOrgDTO), PageRequest.of(pageNum - 1, pageSize));
+        List<SocietyOrgVO> societyOrgVoList = new ArrayList<>(pageSize);
         for (SocietyOrg societyOrg : page.getContent()) {
-            societyOrgVOS.add(new SocietyOrgVO()
+            societyOrgVoList.add(new SocietyOrgVO()
                     .setId(societyOrg.getId())
                     .setCity(societyOrg.getCity())
                     .setMobile(societyOrg.getMobile())
@@ -88,7 +87,7 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
 
             );
         }
-        return new PageUtils(societyOrgVOS, (int) page.getTotalElements(), page.getSize(), page.getNumber());
+        return new PageUtils(societyOrgVoList, (int) page.getTotalElements(), page.getSize(), page.getNumber());
     }
 
     @Override
@@ -98,7 +97,7 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
         try {
             societyOrgRepository.save(societyOrg);
             return "删除成功";
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new XSLGYException("删除失败");
         }
     }
@@ -106,7 +105,7 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
     @Override
     public SocietyOrgVO getDetailById(Long id) {
         SocietyOrg societyOrg = societyOrgRepository.findById(id).orElseThrow(() -> new XSLGYException("社会组织不存在"));
-        if (BYTE_ONE.equals(societyOrg.getDeleteFlag())){
+        if (BYTE_ONE.equals(societyOrg.getDeleteFlag())) {
             throw new XSLGYException("社会组织已删除");
         }
         SocietyOrgVO societyOrgVO = new SocietyOrgVO();
@@ -117,29 +116,32 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
     private Specification<SocietyOrg> getSpecification(SearchSocietyOrgDTO searchSocietyOrgDTO) {
         return (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
-            if (Objects.nonNull(searchSocietyOrgDTO.getId())) {
-                predicateList.add(criteriaBuilder.equal(root.get("id"), searchSocietyOrgDTO.getId()));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getCategory())) {
-                predicateList.add(criteriaBuilder.like(root.get("category"), "%" + searchSocietyOrgDTO.getCategory() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getCity())) {
-                predicateList.add(criteriaBuilder.like(root.get("city"), "%" + searchSocietyOrgDTO.getCity() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getOrgName())) {
-                predicateList.add(criteriaBuilder.like(root.get("orgName"), "%" + searchSocietyOrgDTO.getOrgName() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getOrgAddress())) {
-                predicateList.add(criteriaBuilder.like(root.get("orgAddress"), "%" + searchSocietyOrgDTO.getOrgAddress() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getCommunity())) {
-                predicateList.add(criteriaBuilder.like(root.get("community"), "%" + searchSocietyOrgDTO.getCommunity() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getJuridicalPerson())) {
-                predicateList.add(criteriaBuilder.like(root.get("juridicalPerson"), "%" + searchSocietyOrgDTO.getJuridicalPerson() + "%"));
-            }
-            if (Objects.nonNull(searchSocietyOrgDTO.getLinkman())) {
-                predicateList.add(criteriaBuilder.like(root.get("linkman"), "%" + searchSocietyOrgDTO.getLinkman() + "%"));
+            predicateList.add(criteriaBuilder.equal(root.get("deleteFlag"), BYTE_ZERO));
+            if (Objects.nonNull(searchSocietyOrgDTO)) {
+                if (Objects.nonNull(searchSocietyOrgDTO.getId())) {
+                    predicateList.add(criteriaBuilder.equal(root.get("id"), searchSocietyOrgDTO.getId()));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getCategory())) {
+                    predicateList.add(criteriaBuilder.like(root.get("category"), "%" + searchSocietyOrgDTO.getCategory() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getCity())) {
+                    predicateList.add(criteriaBuilder.like(root.get("city"), "%" + searchSocietyOrgDTO.getCity() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getOrgName())) {
+                    predicateList.add(criteriaBuilder.like(root.get("orgName"), "%" + searchSocietyOrgDTO.getOrgName() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getOrgAddress())) {
+                    predicateList.add(criteriaBuilder.like(root.get("orgAddress"), "%" + searchSocietyOrgDTO.getOrgAddress() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getCommunity())) {
+                    predicateList.add(criteriaBuilder.like(root.get("community"), "%" + searchSocietyOrgDTO.getCommunity() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getJuridicalPerson())) {
+                    predicateList.add(criteriaBuilder.like(root.get("juridicalPerson"), "%" + searchSocietyOrgDTO.getJuridicalPerson() + "%"));
+                }
+                if (Objects.nonNull(searchSocietyOrgDTO.getLinkman())) {
+                    predicateList.add(criteriaBuilder.like(root.get("linkman"), "%" + searchSocietyOrgDTO.getLinkman() + "%"));
+                }
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };
