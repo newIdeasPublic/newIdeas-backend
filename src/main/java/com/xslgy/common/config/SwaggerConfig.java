@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .groupName("1.0版本")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.xslgy.modules"))
+                .apis(RequestHandlerSelectors.basePackage("com.xslgy"))
                 .paths(PathSelectors.any())
                 .build();
         return docket;
