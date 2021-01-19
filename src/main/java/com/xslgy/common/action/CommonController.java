@@ -7,9 +7,12 @@ import com.xslgy.core.exception.XSLGYException;
 import com.xslgy.core.utils.Result;
 import com.xslgy.core.utils.ResultUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -30,9 +33,8 @@ public class CommonController extends BaseController {
 
 
     @ApiOperation("文件上传")
-    @ApiImplicitParam(name = "file", value = "文件", dataType = "MultipartFile", paramType = "query", required = true)
     @PostMapping("upload")
-    public Result upload(@RequestParam(value = "file", required = true)MultipartFile file) {
+    public Result upload(@ApiParam(value = "file", type = "file", required = true)MultipartFile file) {
         String fileUrl = null;
         if (file != null) {
             try {
@@ -60,6 +62,8 @@ public class CommonController extends BaseController {
             } catch (Exception e) {
                 throw new XSLGYException(e.getMessage(), e);
             }
+        } else {
+            return ResultUtils.error("上传的文件不能为空");
         }
         return ResultUtils.success(fileUrl);
     }
