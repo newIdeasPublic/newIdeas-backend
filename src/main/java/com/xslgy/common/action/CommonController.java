@@ -65,7 +65,7 @@ public class CommonController extends BaseController {
         } else {
             return ResultUtils.error("上传的文件不能为空");
         }
-        return ResultUtils.success(fileUrl);
+        return ResultUtils.success(paramConfig.addCdnUrl(fileUrl));
     }
 
     @GetMapping("testRsa")
