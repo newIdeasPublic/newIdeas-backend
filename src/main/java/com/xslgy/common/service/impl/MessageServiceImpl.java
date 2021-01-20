@@ -40,7 +40,7 @@ public class MessageServiceImpl implements MessageService {
         // 阿里大鱼短信
         MessageConfig messageConfig = messageConfigService.getByCode(Constant.SMS_TYPE.VERIFICATE_CODE.getCode());
         if (messageConfig != null) {
-            result = sendSmsMessage(receiver, null, messageConfig.getCode(), templateParam);
+            result = sendSmsMessage(receiver, null, messageConfig.getTemplateId(), templateParam);
         }
         return result;
     }
