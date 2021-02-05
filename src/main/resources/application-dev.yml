@@ -8,3 +8,15 @@ newIdeas:
   filePath: d:/test
   rsaDecodeUrl: http://frps.zxl78585.com:89
   defaultAdminPassword: 123456
+logging:
+  file:
+    name: ${user.home}/newIdeas/newIdeas.log
+  logback:
+    rollingpolicy:
+      max-history: 15
+      max-file-size: 30MB
+  level:
+    org:
+      springframework: error
+    com:
+      xslgy: info
