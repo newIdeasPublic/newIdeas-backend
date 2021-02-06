@@ -109,4 +109,8 @@ public class SocietyOrg extends BaseEntity {
      * 是否删除 0-否 1-是
      */
     private Byte deleteFlag;
+    /**
+     * 状态
+     */
+    private Integer status;
 }

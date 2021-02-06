@@ -100,4 +100,33 @@ public class Constant {
             this.code = code;
         }
     }
+
+    /**
+     * 审核状态
+     */
+    public enum CHECK_STATUS {
+        /**
+         * 未审核
+         */
+        NOT_CHECK(1),
+        /**
+         * 审核中
+         */
+        CHECKING(2),
+        /**
+         * 审核通过
+         */
+        CHECK_PASS(3),
+        /**
+         * 审核不通过
+         */
+        CHECK_NOTPASS(4);
+        private int status;
+        public int getStatus() {
+            return status;
+        }
+        CHECK_STATUS(int check) {
+            this.status = check;
+        }
+    }
 }
