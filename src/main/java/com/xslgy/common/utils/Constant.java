@@ -106,21 +106,17 @@ public class Constant {
      */
     public enum CHECK_STATUS {
         /**
-         * 未审核
+         * 待审核
          */
         NOT_CHECK(1),
         /**
-         * 审核中
-         */
-        CHECKING(2),
-        /**
          * 审核通过
          */
-        CHECK_PASS(3),
+        CHECK_PASS(2),
         /**
          * 审核不通过
          */
-        CHECK_NOTPASS(4);
+        CHECK_NOTPASS(3);
         private int status;
         public int getStatus() {
             return status;
