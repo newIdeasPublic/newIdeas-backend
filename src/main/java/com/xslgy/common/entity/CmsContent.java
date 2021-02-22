@@ -24,6 +24,7 @@ public class CmsContent extends BaseEntity {
     @ApiModelProperty("内容简介")
     private String shortContent;
     @ApiModelProperty("内容")
+    @Column(name = "content", length = 4096)
     private String content;
     @ApiModelProperty("图片地址")
     private String imgUrl;
