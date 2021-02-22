@@ -8,6 +8,7 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,4 +33,7 @@ public class CmsCategory extends BaseEntity {
     @Transient
     @ApiModelProperty("是否有子节点")
     private boolean hasChildren;
+    @ApiModelProperty("子节点")
+    @Transient
+    private List<CmsCategory> childs;
 }

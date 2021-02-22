@@ -6,6 +6,7 @@ import com.xslgy.common.service.CmsCategoryService;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.core.exception.XSLGYException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -93,5 +94,14 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         CmsCategory category = getById(id);
         category.setIsShow(isShow);
         return save(category);
+    }
+
+    @Override
+    public List<CmsCategory> findAllCategoryTree() {
+        List<CmsCategory> cmsCategories = cmsCategoryRepository.findAll(Sort.by(Sort.Direction.DESC, "orderNo"));
+        if (!CollectionUtils.isEmpty(cmsCategories)) {
+
+        }
+        return null;
     }
 }
