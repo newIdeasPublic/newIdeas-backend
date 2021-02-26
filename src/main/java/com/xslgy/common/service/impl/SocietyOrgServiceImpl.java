@@ -6,7 +6,6 @@ import com.xslgy.common.entity.SocietyOrg;
 import com.xslgy.common.repository.SocietyOrgRepository;
 import com.xslgy.common.service.SocietyOrgService;
 import com.xslgy.common.utils.BeanUtils;
-import com.xslgy.common.utils.Constant;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.SocietyOrgVO;
 import com.xslgy.core.exception.XSLGYException;
@@ -144,7 +143,8 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
                     predicateList.add(criteriaBuilder.like(root.get("linkman"), "%" + searchSocietyOrgDTO.getLinkman() + "%"));
                 }
                 // 前台只查询审核通过的
-                predicateList.add(criteriaBuilder.equal(root.get("status"), Constant.CHECK_STATUS.CHECK_PASS.getStatus()));
+                // TODO 管理后台要查询所有的数据
+                // predicateList.add(criteriaBuilder.equal(root.get("status"), Constant.CHECK_STATUS.CHECK_PASS.getStatus()));
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };
