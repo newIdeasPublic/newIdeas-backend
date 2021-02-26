@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 
 @Slf4j
 @Api(tags = "公共资源管理")
+@RequestMapping("api/publicResource")
 public class PublicResourceController extends BaseController {
 
     @Resource
