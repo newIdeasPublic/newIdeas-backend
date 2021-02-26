@@ -98,10 +98,34 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
 
     @Override
     public List<CmsCategory> findAllCategoryTree() {
+        List<CmsCategory> result = new ArrayList<>();
         List<CmsCategory> cmsCategories = cmsCategoryRepository.findAll(Sort.by(Sort.Direction.DESC, "orderNo"));
         if (!CollectionUtils.isEmpty(cmsCategories)) {
-
+            result = generateCategoryTree(cmsCategories, 0L);
         }
-        return null;
+        return result;
+    }
+
+    /**
+     * 生成分类树
+     * @return
+     */
+    private List<CmsCategory> generateCategoryTree(List<CmsCategory> data, Long id) {
+        if (data.size() == 0) {
+            return null;
+        }
+        List<CmsCategory> result = new ArrayList<>();
+        List<CmsCategory> continueData = new ArrayList<>(data);
+        data.forEach(category -> {
+            if (category.getParentId() == id) {
+                continueData.remove(category);
+                category.setChilds(generateCategoryTree(continueData, category.getId()));
+                result.add(category);
+            }
+        });
+        if (result.size() == 0) {
+            return null;
+        }
+        return result;
     }
 }

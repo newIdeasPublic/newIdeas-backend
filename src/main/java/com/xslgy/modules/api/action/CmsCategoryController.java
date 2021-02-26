@@ -79,4 +79,10 @@ public class CmsCategoryController extends BaseController {
     public Result isShow(@RequestBody CategoryShowVO categoryShowVO) {
         return ResultUtils.success(cmsCategoryService.hideOrShow(categoryShowVO.getId(), categoryShowVO.getIsShow()));
     }
+
+    @ApiOperation("以树状结构显示所有分类")
+    @GetMapping("findAllCategoryTree")
+    public Result findAllCategoryTree() {
+        return ResultUtils.success(cmsCategoryService.findAllCategoryTree());
+    }
 }
