@@ -16,4 +16,11 @@ public class ParamConfig {
      * 文件路径
      */
     private String filePath;
+
+    public String addCdnUrl(String str) {
+        return cdnUrl + str;
+    }
+    public String removeCdnUrl(String str) {
+        return str.replace(cdnUrl, "");
+    }
 }

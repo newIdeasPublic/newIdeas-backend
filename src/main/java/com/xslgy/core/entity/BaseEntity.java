@@ -25,4 +25,7 @@ public class BaseEntity implements Serializable {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
+
+    @Version
+    private Integer version;
 }

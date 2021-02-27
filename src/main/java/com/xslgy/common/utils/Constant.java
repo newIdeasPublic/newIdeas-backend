@@ -6,6 +6,10 @@ public class Constant {
      * 隐私数据加密用的公钥
      */
     public final static String RSA_PUBLIC_KEY_CODE = "rsa_public_key";
+    /**
+     * 阿里大鱼短信配置信息
+     */
+    public final static String ALI_SMS_ACCOUNT = "ali_sms_account";
 
     /**
      * 个人、个体工商、企业范围枚举
@@ -94,6 +98,31 @@ public class Constant {
         SMS_TYPE(int value, String code) {
             this.val = value;
             this.code = code;
+        }
+    }
+
+    /**
+     * 审核状态
+     */
+    public enum CHECK_STATUS {
+        /**
+         * 待审核
+         */
+        NOT_CHECK(1),
+        /**
+         * 审核通过
+         */
+        CHECK_PASS(2),
+        /**
+         * 审核不通过
+         */
+        CHECK_NOTPASS(3);
+        private int status;
+        public int getStatus() {
+            return status;
+        }
+        CHECK_STATUS(int check) {
+            this.status = check;
         }
     }
 }

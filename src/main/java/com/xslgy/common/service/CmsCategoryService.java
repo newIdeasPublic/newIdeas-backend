@@ -21,4 +21,6 @@ public interface CmsCategoryService {
     List<CmsCategory> getByParentId(Long parentId);
 
     CmsCategory hideOrShow(Long id, Integer isShow);
+
+    List<CmsCategory> findAllCategoryTree();
 }

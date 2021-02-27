@@ -6,6 +6,7 @@ import com.xslgy.common.service.CmsCategoryService;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.core.exception.XSLGYException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -93,5 +94,38 @@ public class CmsCategoryServiceImpl implements CmsCategoryService {
         CmsCategory category = getById(id);
         category.setIsShow(isShow);
         return save(category);
+    }
+
+    @Override
+    public List<CmsCategory> findAllCategoryTree() {
+        List<CmsCategory> result = new ArrayList<>();
+        List<CmsCategory> cmsCategories = cmsCategoryRepository.findAll(Sort.by(Sort.Direction.DESC, "orderNo"));
+        if (!CollectionUtils.isEmpty(cmsCategories)) {
+            result = generateCategoryTree(cmsCategories, 0L);
+        }
+        return result;
+    }
+
+    /**
+     * 生成分类树
+     * @return
+     */
+    private List<CmsCategory> generateCategoryTree(List<CmsCategory> data, Long id) {
+        if (data.size() == 0) {
+            return null;
+        }
+        List<CmsCategory> result = new ArrayList<>();
+        List<CmsCategory> continueData = new ArrayList<>(data);
+        data.forEach(category -> {
+            if (category.getParentId() == id) {
+                continueData.remove(category);
+                category.setChilds(generateCategoryTree(continueData, category.getId()));
+                result.add(category);
+            }
+        });
+        if (result.size() == 0) {
+            return null;
+        }
+        return result;
     }
 }

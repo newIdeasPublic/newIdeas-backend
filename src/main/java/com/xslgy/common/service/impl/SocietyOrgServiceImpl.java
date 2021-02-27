@@ -142,6 +142,9 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
                 if (Objects.nonNull(searchSocietyOrgDTO.getLinkman())) {
                     predicateList.add(criteriaBuilder.like(root.get("linkman"), "%" + searchSocietyOrgDTO.getLinkman() + "%"));
                 }
+                // 前台只查询审核通过的
+                // TODO 管理后台要查询所有的数据
+                // predicateList.add(criteriaBuilder.equal(root.get("status"), Constant.CHECK_STATUS.CHECK_PASS.getStatus()));
             }
             return criteriaQuery.where(predicateList.toArray(new Predicate[0])).getRestriction();
         };

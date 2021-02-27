@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   profiles:
-    active: test
+    active: dev
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -20,6 +20,9 @@ spring:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
     default-property-inclusion: non_null
+  web:
+    resources:
+      static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${newIdeas.filePath}/
 knife4j:
   enable: true
   production: false

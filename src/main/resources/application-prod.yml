@@ -4,11 +4,19 @@ spring:
     username: root
     password: admin
 newIdeas:
-  cdnUrl: http://www.xslgy.com
+  cdnUrl: http://static.xslgy.com
   filePath: /data/appdir/upload
   rsaDecodeUrl: http://127.0.0.1:89
   defaultAdminPassword: 123456
-  sms:
-    accessKeyId:
-    accessSecret:
-    sign: 赵新乐
+logging:
+  file:
+    name: ${user.home}/newIdeas/newIdeas.log
+  logback:
+    rollingpolicy:
+      max-history: 15
+      max-file-size: 30MB
+  level:
+    org:
+      springframework: error
+    com:
+      xslgy: info

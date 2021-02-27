@@ -8,5 +8,5 @@ public interface MessageService {
 
     public boolean sendSmsMessage(String receiver, String content);
 
-    public boolean sendSmsMessage(String receiver, String sign, String templateCode, ObjectNode templateParam);
+    public boolean sendSmsMessage(String receiver, String sign, Integer smsType, String templateCode, ObjectNode templateParam);
 }
