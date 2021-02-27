@@ -85,8 +85,8 @@ public class SocietyOrgServiceImpl implements SocietyOrgService {
                     .setOrgAddress(societyOrg.getOrgAddress())
                     .setCreatedTime(societyOrg.getCreateTime())
                     .setUpdatedTime(societyOrg.getUpdateTime())
-                    .setOrgIntroduction(societyOrg.getOrgIntroduction())
                     .setJuridicalPerson(societyOrg.getJuridicalPerson())
+                    .setOrgCertificationUrl(societyOrg.getOrgCertificationUrl())
 
             );
         }
