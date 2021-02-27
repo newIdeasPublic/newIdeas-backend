@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -59,6 +58,9 @@ public class SocietyOrgVO {
 
     @ApiModelProperty("法人介绍")
     private String juridicalPersonIntroduction;
+
+    @ApiModelProperty("状态")
+    private Integer status;
 
     @ApiModelProperty("联系人")
     private String linkman;

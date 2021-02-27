@@ -2,7 +2,6 @@ package com.xslgy.modules.api.action;
 
 import com.xslgy.common.dto.AddSocietyOrgDTO;
 import com.xslgy.common.dto.SearchSocietyOrgDTO;
-import com.xslgy.common.entity.SocietyOrg;
 import com.xslgy.common.service.SocietyOrgService;
 import com.xslgy.common.utils.PageUtils;
 import com.xslgy.common.vo.SocietyOrgVO;
